@@ -1,0 +1,35 @@
+@{
+    ViewData["Title"] = "Yeni Rol Oluştur";
+}
+
+<div class="max-w-2xl mx-auto">
+    <div class="bg-white rounded-lg shadow-lg p-8">
+        <h1 class="text-3xl font-bold mb-6">Yeni Rol Oluştur</h1>
+
+        @if (!ViewData.ModelState.IsValid)
+        {
+            <div asp-validation-summary="All" class="text-red-600 mb-4"></div>
+        }
+
+        <form method="post" class="space-y-6">
+            <div>
+                <label class="block text-sm font-medium text-gray-700 mb-2">Rol Adı</label>
+                <input type="text" name="roleName" required class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500" placeholder="örn. Moderator, Editor">
+            </div>
+
+            <div>
+                <label class="block text-sm font-medium text-gray-700 mb-2">Açıklama</label>
+                <textarea name="description" rows="3" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500" placeholder="Rol hakkında kısa bilgi"></textarea>
+            </div>
+
+            <div class="flex gap-4">
+                <button type="submit" class="flex-1 bg-green-600 hover:bg-green-700 text-white font-medium py-2 px-4 rounded-lg">
+                    Oluştur
+                </button>
+                <a href="/Admin/Roles" class="flex-1 bg-gray-300 hover:bg-gray-400 text-gray-900 font-medium py-2 px-4 rounded-lg text-center">
+                    İptal
+                </a>
+            </div>
+        </form>
+    </div>
+</div>

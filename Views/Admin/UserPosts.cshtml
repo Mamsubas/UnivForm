@@ -1,0 +1,72 @@
+@model UnivForm.Controllers.AdminController.UserPostsViewModel
+
+@{
+    ViewData["Title"] = $"{Model.UserName} - Gönderiler";
+}
+
+<div class="max-w-6xl mx-auto">
+    <div class="mb-6">
+        <a href="/Admin" class="text-indigo-600 hover:text-indigo-800">← Yönetim Paneline Dön</a>
+        <h1 class="text-3xl font-bold mt-2">@Model.UserName - Gönderiler Takibi</h1>
+        <p class="text-gray-600 mt-1">@Model.UserEmail</p>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+        <div class="bg-white rounded-lg shadow p-6">
+            <p class="text-gray-600 text-sm">Sorular</p>
+            <p class="text-4xl font-bold text-indigo-600">@Model.ThreadCount</p>
+        </div>
+        <div class="bg-white rounded-lg shadow p-6">
+            <p class="text-gray-600 text-sm">Cevaplar</p>
+            <p class="text-4xl font-bold text-green-600">@Model.PostCount</p>
+        </div>
+    </div>
+
+    <!-- Sorular -->
+    <div class="bg-white rounded-lg shadow p-6 mb-8">
+        <h2 class="text-2xl font-bold mb-4">Sorular (@Model.Threads.Count)</h2>
+        @if (Model.Threads.Any())
+        {
+            <div class="space-y-4">
+                @foreach (var thread in Model.Threads)
+                {
+                    <div class="border rounded-lg p-4 hover:shadow-md transition">
+                        <h3 class="font-semibold text-gray-900">@thread.Title</h3>
+                        <p class="text-sm text-gray-600 mt-1">@thread.CreatedAt.ToString("dd.MM.yyyy HH:mm")</p>
+                        <a href="/Forum/ThreadDetail/@thread.Id" class="text-indigo-600 hover:text-indigo-800 text-sm font-medium mt-2 inline-block">
+                            Detayları Gör →
+                        </a>
+                    </div>
+                }
+            </div>
+        }
+        else
+        {
+            <p class="text-gray-500">Henüz soru sorulmamış.</p>
+        }
+    </div>
+
+    <!-- Cevaplar -->
+    <div class="bg-white rounded-lg shadow p-6">
+        <h2 class="text-2xl font-bold mb-4">Cevaplar (@Model.Posts.Count)</h2>
+        @if (Model.Posts.Any())
+        {
+            <div class="space-y-4">
+                @foreach (var post in Model.Posts)
+                {
+                    <div class="border rounded-lg p-4 hover:shadow-md transition">
+                        <p class="text-gray-900 line-clamp-3">@post.Content</p>
+                        <p class="text-sm text-gray-600 mt-2">@post.CreatedAt.ToString("dd.MM.yyyy HH:mm")</p>
+                        <a href="/Forum/ThreadDetail/@post.ForumThreadId#post-@post.Id" class="text-indigo-600 hover:text-indigo-800 text-sm font-medium mt-2 inline-block">
+                            Cevabı Gör →
+                        </a>
+                    </div>
+                }
+            </div>
+        }
+        else
+        {
+            <p class="text-gray-500">Henüz cevap verilmemiş.</p>
+        }
+    </div>
+</div>
