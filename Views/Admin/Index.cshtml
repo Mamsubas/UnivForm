@@ -4,155 +4,232 @@
     ViewData["Title"] = "Yönetici - Kullanıcı Yönetimi";
 }
 
-<div class="max-w-7xl mx-auto">
-    <div class="flex justify-between items-center mb-6">
-        <h1 class="text-3xl font-bold">Yönetim Paneli</h1>
-        <div class="space-x-2">
-            <a href="/Admin/Roles" class="bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded">
-                🎭 Roller
+<div class="max-w-7xl mx-auto animate-fade-in">
+    <div class="flex justify-between items-center mb-8">
+        <div>
+            <h1 class="text-4xl font-bold bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent mb-2">
+                <i class="fas fa-tachometer-alt mr-2"></i>Yönetim Paneli
+            </h1>
+            <p class="text-gray-600">Sistem kullanıcılarını ve izinlerini yönetin</p>
+        </div>
+        <div class="space-x-3 flex">
+            <a href="/Admin/Roles" class="btn-primary inline-flex items-center">
+                <i class="fas fa-theater-masks mr-2"></i>Roller
             </a>
         </div>
     </div>
 
     @if (TempData["SuccessMessage"] != null)
     {
-        <div class="mb-4 bg-green-50 border border-green-200 text-green-700 px-4 py-3 rounded-lg">
-            @TempData["SuccessMessage"]
+        <div class="mb-6 animate-slide-down">
+            <div class="bg-gradient-to-r from-green-50 to-emerald-50 border-l-4 border-green-500 text-green-700 px-6 py-4 rounded-lg shadow-md">
+                <i class="fas fa-check-circle mr-2 text-lg"></i>
+                <strong>Başarılı!</strong> @TempData["SuccessMessage"]
+            </div>
         </div>
     }
     @if (TempData["ErrorMessage"] != null)
     {
-        <div class="mb-4 bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-lg">
-            @TempData["ErrorMessage"]
+        <div class="mb-6 animate-slide-down">
+            <div class="bg-gradient-to-r from-red-50 to-rose-50 border-l-4 border-red-500 text-red-700 px-6 py-4 rounded-lg shadow-md">
+                <i class="fas fa-times-circle mr-2 text-lg"></i>
+                <strong>Hata!</strong> @TempData["ErrorMessage"]
+            </div>
         </div>
     }
-    else { <!-- Remove duplicate --> }
 
     <!-- Dashboard Statistics -->
     <div class="grid grid-cols-1 md:grid-cols-5 gap-4 mb-8">
-        <div class="bg-white rounded-lg shadow p-6">
-            <p class="text-gray-600 text-sm">Toplam Kullanıcı</p>
-            <p class="text-4xl font-bold text-blue-600 mt-2">@ViewBag.TotalUsers</p>
+        <div class="card animate-scale-up" style="animation-delay: 0s;">
+            <div class="p-6">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <p class="text-gray-600 text-sm font-medium">Toplam Kullanıcı</p>
+                        <p class="text-4xl font-bold text-blue-600 mt-2">@ViewBag.TotalUsers</p>
+                    </div>
+                    <i class="fas fa-users text-blue-200 text-4xl"></i>
+                </div>
+            </div>
         </div>
-        <div class="bg-white rounded-lg shadow p-6">
-            <p class="text-gray-600 text-sm">Aktif Kullanıcı</p>
-            <p class="text-4xl font-bold text-green-600 mt-2">@ViewBag.ActiveUsers</p>
+        <div class="card animate-scale-up" style="animation-delay: 0.1s;">
+            <div class="p-6">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <p class="text-gray-600 text-sm font-medium">Aktif Kullanıcı</p>
+                        <p class="text-4xl font-bold text-green-600 mt-2">@ViewBag.ActiveUsers</p>
+                    </div>
+                    <i class="fas fa-user-check text-green-200 text-4xl"></i>
+                </div>
+            </div>
         </div>
-        <div class="bg-white rounded-lg shadow p-6">
-            <p class="text-gray-600 text-sm">Toplam Soru</p>
-            <p class="text-4xl font-bold text-indigo-600 mt-2">@ViewBag.TotalThreads</p>
+        <div class="card animate-scale-up" style="animation-delay: 0.2s;">
+            <div class="p-6">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <p class="text-gray-600 text-sm font-medium">Toplam Soru</p>
+                        <p class="text-4xl font-bold text-indigo-600 mt-2">@ViewBag.TotalThreads</p>
+                    </div>
+                    <i class="fas fa-comments text-indigo-200 text-4xl"></i>
+                </div>
+            </div>
         </div>
-        <div class="bg-white rounded-lg shadow p-6">
-            <p class="text-gray-600 text-sm">Toplam Cevap</p>
-            <p class="text-4xl font-bold text-purple-600 mt-2">@ViewBag.TotalPosts</p>
+        <div class="card animate-scale-up" style="animation-delay: 0.3s;">
+            <div class="p-6">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <p class="text-gray-600 text-sm font-medium">Toplam Cevap</p>
+                        <p class="text-4xl font-bold text-purple-600 mt-2">@ViewBag.TotalPosts</p>
+                    </div>
+                    <i class="fas fa-reply text-purple-200 text-4xl"></i>
+                </div>
+            </div>
         </div>
-        <div class="bg-white rounded-lg shadow p-6">
-            <p class="text-gray-600 text-sm">Rol Sayısı</p>
-            <p class="text-4xl font-bold text-red-600 mt-2">@ViewBag.TotalRoles</p>
+        <div class="card animate-scale-up" style="animation-delay: 0.4s;">
+            <div class="p-6">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <p class="text-gray-600 text-sm font-medium">Rol Sayısı</p>
+                        <p class="text-4xl font-bold text-red-600 mt-2">@ViewBag.TotalRoles</p>
+                    </div>
+                    <i class="fas fa-crown text-red-200 text-4xl"></i>
+                </div>
+            </div>
         </div>
     </div>
 
-    <div class="bg-white rounded-lg shadow overflow-x-auto">
-        <table class="w-full text-sm">
-            <thead class="bg-gray-100">
-                <tr class="text-left text-gray-600">
-                    <th class="px-4 py-3">Adı</th>
-                    <th class="px-4 py-3">E-Posta</th>
-                    <th class="px-4 py-3">Roller</th>
-                    <th class="px-4 py-3">Gönderiler</th>
-                    <th class="px-4 py-3">Durum</th>
-                    <th class="px-4 py-3">Üye Olunca</th>
-                    <th class="px-4 py-3">Son Giriş</th>
-                    <th class="px-4 py-3">İşlemler</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach (var u in Model)
-                {
-                    <tr class="border-t hover:bg-gray-50">
-                        <td class="px-4 py-3 font-medium">@u.Name</td>
-                        <td class="px-4 py-3">@u.Email</td>
-                        <td class="px-4 py-3">
-                            @if (u.Roles.Any())
-                            {
-                                @foreach (var role in u.Roles)
-                                {
-                                    <span class="bg-purple-100 text-purple-800 px-2 py-1 rounded text-xs mr-1">@role</span>
-                                }
-                            }
-                            else
-                            {
-                                <span class="text-gray-500 text-xs">Rol yok</span>
-                            }
-                        </td>
-                        <td class="px-4 py-3">
-                            <a href="/Admin/UserPosts/@u.Id" class="text-indigo-600 hover:text-indigo-800 font-medium">
-                                @u.PostCount
-                            </a>
-                        </td>
-                        <td class="px-4 py-3">
-                            @if (u.IsActive)
-                            {
-                                <span class="bg-green-100 text-green-800 px-2 py-1 rounded text-xs">Aktif</span>
-                            }
-                            else
-                            {
-                                <span class="bg-red-100 text-red-800 px-2 py-1 rounded text-xs">Pasif</span>
-                            }
-                        </td>
-                        <td class="px-4 py-3 text-xs">@u.CreatedAt.ToString("dd.MM.yyyy")</td>
-                        <td class="px-4 py-3 text-xs">
-                            @if (u.LastLogin.HasValue)
-                            {
-                                @u.LastLogin.Value.ToString("dd.MM.yyyy HH:mm")
-                            }
-                            else
-                            {
-                                <span class="text-gray-500">Henüz</span>
-                            }
-                        </td>
-                        <td class="px-4 py-3 space-x-1 flex flex-wrap gap-1">
-                            <form asp-action="ToggleAdmin" method="post" class="inline">
-                                <input type="hidden" name="id" value="@u.Id" />
-                                <button type="submit" class="bg-indigo-600 hover:bg-indigo-700 text-white px-2 py-1 rounded text-xs">
-                                    @(u.IsAdmin ? "Admin Kaldır" : "Admin Yap")
-                                </button>
-                            </form>
-
-                            <form asp-action="ToggleActive" method="post" class="inline">
-                                <input type="hidden" name="id" value="@u.Id" />
-                                <button type="submit" class="bg-gray-600 hover:bg-gray-700 text-white px-2 py-1 rounded text-xs">
-                                    @(u.IsActive ? "Devre Dışı" : "Aktif")
-                                </button>
-                            </form>
-
-                            <a href="/Admin/WarnUser/@u.Id" class="bg-yellow-600 hover:bg-yellow-700 text-white px-2 py-1 rounded text-xs inline-block">
-                                ⚠️ Uyar
-                            </a>
-
-                            @if (u.IsBanned)
-                            {
-                                <a href="/Admin/UnbanUser/@u.Id" class="bg-green-600 hover:bg-green-700 text-white px-2 py-1 rounded text-xs inline-block">
-                                    ✓ Yasak Kaldır
-                                </a>
-                            }
-                            else
-                            {
-                                <a href="/Admin/BanUser/@u.Id" class="bg-red-600 hover:bg-red-700 text-white px-2 py-1 rounded text-xs inline-block">
-                                    🚫 Yasakla
-                                </a>
-                            }
-
-                            <form asp-action="DeleteUser" method="post" class="inline" onsubmit="return confirm('Bu kullanıcıyı ve tüm verilerini silmek istediğinize emin misiniz?');">
-                                <input type="hidden" name="id" value="@u.Id" />
-                                <button type="submit" class="bg-black hover:bg-gray-800 text-white px-2 py-1 rounded text-xs">
-                                    🗑️ Sil
-                                </button>
-                            </form>
-                        </td>
+    <!-- Users Table -->
+    <div class="card shadow-lg overflow-hidden">
+        <div class="bg-gradient-to-r from-blue-600 to-indigo-600 px-6 py-4">
+            <h2 class="text-white text-xl font-bold"><i class="fas fa-list mr-2"></i>Kullanıcı Listesi</h2>
+        </div>
+        <div class="overflow-x-auto">
+            <table class="w-full text-sm">
+                <thead class="bg-gray-100 border-b-2 border-gray-200">
+                    <tr class="text-left text-gray-700 font-semibold">
+                        <th class="px-6 py-4">Adı</th>
+                        <th class="px-6 py-4">E-Posta</th>
+                        <th class="px-6 py-4">Roller</th>
+                        <th class="px-6 py-4">Gönderiler</th>
+                        <th class="px-6 py-4">Durum</th>
+                        <th class="px-6 py-4">Üye Olunca</th>
+                        <th class="px-6 py-4">Son Giriş</th>
+                        <th class="px-6 py-4 text-center">İşlemler</th>
                     </tr>
-                }
-            </tbody>
-        </table>
+                </thead>
+                <tbody>
+                    @foreach (var u in Model)
+                    {
+                        <tr class="border-t hover:bg-gray-50 transition-colors">
+                            <td class="px-6 py-4 font-semibold text-gray-900">
+                                <i class="fas fa-user-circle mr-2 text-blue-500"></i>@u.Name
+                            </td>
+                            <td class="px-6 py-4 text-gray-600">
+                                <i class="fas fa-envelope mr-2"></i>@u.Email
+                            </td>
+                            <td class="px-6 py-4">
+                                @if (u.Roles.Any())
+                                {
+                                    @foreach (var role in u.Roles)
+                                    {
+                                        <span class="inline-block bg-purple-100 text-purple-800 px-3 py-1 rounded-full text-xs font-semibold mr-2 mb-1">
+                                            <i class="fas fa-crown mr-1"></i>@role
+                                        </span>
+                                    }
+                                }
+                                else
+                                {
+                                    <span class="text-gray-500 text-xs italic">Rol yok</span>
+                                }
+                            </td>
+                            <td class="px-6 py-4">
+                                <a href="/Admin/UserPosts/@u.Id" class="text-indigo-600 hover:text-indigo-800 font-bold">
+                                    <i class="fas fa-arrow-right mr-1"></i>@u.PostCount
+                                </a>
+                            </td>
+                            <td class="px-6 py-4">
+                                @if (u.IsActive)
+                                {
+                                    <span class="inline-block bg-green-100 text-green-800 px-3 py-1 rounded-full text-xs font-semibold">
+                                        <i class="fas fa-check-circle mr-1"></i>Aktif
+                                    </span>
+                                }
+                                else
+                                {
+                                    <span class="inline-block bg-red-100 text-red-800 px-3 py-1 rounded-full text-xs font-semibold">
+                                        <i class="fas fa-times-circle mr-1"></i>Pasif
+                                    </span>
+                                }
+                                @if (u.IsBanned)
+                                {
+                                    <span class="inline-block bg-red-100 text-red-800 px-3 py-1 rounded-full text-xs font-semibold mt-1">
+                                        <i class="fas fa-ban mr-1"></i>Yasaklı
+                                    </span>
+                                }
+                            </td>
+                            <td class="px-6 py-4 text-xs text-gray-600">
+                                <i class="fas fa-calendar mr-1"></i>@u.CreatedAt.ToString("dd.MM.yyyy")
+                            </td>
+                            <td class="px-6 py-4 text-xs text-gray-600">
+                                @if (u.LastLogin.HasValue)
+                                {
+                                    <i class="fas fa-clock mr-1"></i>@u.LastLogin.Value.ToString("dd.MM.yyyy HH:mm")
+                                }
+                                else
+                                {
+                                    <span class="italic">Henüz</span>
+                                }
+                            </td>
+                            <td class="px-6 py-4">
+                                <div class="flex flex-wrap gap-2 justify-center">
+                                    <!-- Toggle Admin -->
+                                    <form asp-action="ToggleAdmin" method="post" class="inline">
+                                        <input type="hidden" name="id" value="@u.Id" />
+                                        <button type="submit" class="@(u.IsAdmin ? "bg-indigo-500 hover:bg-indigo-600" : "bg-gray-400 hover:bg-gray-500") text-white px-3 py-1 rounded text-xs font-semibold transition-all transform hover:scale-105 active:scale-95">
+                                            @(u.IsAdmin ? "👑 Kaldır" : "👑 Yap")
+                                        </button>
+                                    </form>
+
+                                    <!-- Toggle Active -->
+                                    <form asp-action="ToggleActive" method="post" class="inline">
+                                        <input type="hidden" name="id" value="@u.Id" />
+                                        <button type="submit" class="@(u.IsActive ? "bg-green-500 hover:bg-green-600" : "bg-orange-500 hover:bg-orange-600") text-white px-3 py-1 rounded text-xs font-semibold transition-all transform hover:scale-105 active:scale-95">
+                                            @(u.IsActive ? "✓ Aktif" : "✗ Pasif")
+                                        </button>
+                                    </form>
+
+                                    <!-- Warn User -->
+                                    <a href="/Admin/WarnUser/@u.Id" class="bg-yellow-500 hover:bg-yellow-600 text-white px-3 py-1 rounded text-xs font-semibold inline-block transition-all transform hover:scale-105 active:scale-95">
+                                        ⚠️ Uyar
+                                    </a>
+
+                                    <!-- Ban/Unban User -->
+                                    @if (u.IsBanned)
+                                    {
+                                        <a href="/Admin/UnbanUser/@u.Id" class="bg-green-500 hover:bg-green-600 text-white px-3 py-1 rounded text-xs font-semibold inline-block transition-all transform hover:scale-105 active:scale-95">
+                                            ✓ Yasak Kaldır
+                                        </a>
+                                    }
+                                    else
+                                    {
+                                        <a href="/Admin/BanUser/@u.Id" class="bg-red-500 hover:bg-red-600 text-white px-3 py-1 rounded text-xs font-semibold inline-block transition-all transform hover:scale-105 active:scale-95">
+                                            🚫 Yasakla
+                                        </a>
+                                    }
+
+                                    <!-- Delete User -->
+                                    <form asp-action="DeleteUser" method="post" class="inline" onsubmit="return confirm('Bu kullanıcıyı ve tüm verilerini silmek istediğinize emin misiniz? Bu işlem geri alınamaz!');">
+                                        <input type="hidden" name="id" value="@u.Id" />
+                                        <button type="submit" class="bg-black hover:bg-gray-800 text-white px-3 py-1 rounded text-xs font-semibold transition-all transform hover:scale-105 active:scale-95">
+                                            🗑️ Sil
+                                        </button>
+                                    </form>
+                                </div>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
     </div>
 </div>
+
