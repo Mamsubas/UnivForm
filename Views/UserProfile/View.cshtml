@@ -1,0 +1,103 @@
+@model AppUser
+
+@{
+    ViewData["Title"] = $"{Model.FirstName} {Model.LastName} - Profil";
+}
+
+<div class="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 py-8 px-4">
+    <div class="max-w-4xl mx-auto">
+        <!-- Profile Header -->
+        <div class="bg-white rounded-lg shadow-lg overflow-hidden mb-8">
+            <!-- Cover Background -->
+            <div class="h-32 bg-gradient-to-r from-indigo-600 to-blue-600"></div>
+
+            <!-- Profile Content -->
+            <div class="px-6 pb-6 relative">
+                <!-- Profile Picture -->
+                <div class="flex flex-col sm:flex-row sm:items-end sm:space-x-5 -mt-16 mb-4">
+                    @if (!string.IsNullOrEmpty(Model.ProfileImageUrl))
+                    {
+                        <img src="@Model.ProfileImageUrl" alt="@Model.FirstName" class="h-32 w-32 rounded-full border-4 border-white object-cover">
+                    }
+                    else
+                    {
+                        <div class="h-32 w-32 rounded-full border-4 border-white bg-indigo-100 flex items-center justify-center">
+                            <svg class="w-16 h-16 text-indigo-600" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd"></path>
+                            </svg>
+                        </div>
+                    }
+                    <div class="mt-4 sm:mt-0">
+                        <h1 class="text-3xl font-bold text-gray-900">@Model.FirstName @Model.LastName</h1>
+                        <p class="text-gray-600">@Model.Email</p>
+                        @if (Model.PhoneNumber != null)
+                        {
+                            <p class="text-gray-600">📞 @Model.PhoneNumber</p>
+                        }
+                    </div>
+                </div>
+
+                <!-- Edit Profile Button -->
+                @if (User.Identity?.IsAuthenticated == true)
+                {
+                    var currentUser = ViewContext.HttpContext.User;
+                    var userClaims = currentUser?.Claims;
+                    
+                    <div class="mt-4">
+                        <a href="/UserProfile/Edit" class="inline-block bg-indigo-600 hover:bg-indigo-700 text-white font-medium py-2 px-4 rounded-lg transition">
+                            Profili Düzenle
+                        </a>
+                    </div>
+                }
+
+                <!-- Bio -->
+                @if (!string.IsNullOrEmpty(Model.Biography))
+                {
+                    <div class="mt-6 border-t pt-4">
+                        <p class="text-gray-700">@Model.Biography</p>
+                    </div>
+                }
+
+                <!-- Stats -->
+                <div class="mt-6 grid grid-cols-3 gap-4">
+                    <div class="bg-indigo-50 rounded-lg p-4 text-center">
+                        <p class="text-2xl font-bold text-indigo-600">@ViewBag.PostCount</p>
+                        <p class="text-gray-600 text-sm">Sorular</p>
+                    </div>
+                    <div class="bg-green-50 rounded-lg p-4 text-center">
+                        <p class="text-2xl font-bold text-green-600">@ViewBag.AnswerCount</p>
+                        <p class="text-gray-600 text-sm">Cevaplar</p>
+                    </div>
+                    <div class="bg-red-50 rounded-lg p-4 text-center">
+                        <p class="text-2xl font-bold text-red-600">@ViewBag.LikesReceived</p>
+                        <p class="text-gray-600 text-sm">Beğeniler</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Recent Posts -->
+        <div class="bg-white rounded-lg shadow-lg p-6">
+            <h2 class="text-2xl font-bold text-gray-900 mb-4">Son Sorular</h2>
+            @if (ViewBag.RecentPosts?.Count > 0)
+            {
+                <div class="space-y-4">
+                    @foreach (var post in ViewBag.RecentPosts)
+                    {
+                        <div class="border rounded-lg p-4 hover:shadow-md transition">
+                            <h3 class="font-semibold text-gray-900">@post.Title</h3>
+                            <p class="text-sm text-gray-600 mt-1">@post.CreatedAt.ToString("dd.MM.yyyy HH:mm")</p>
+                            <a href="/Forum/ThreadDetail/@post.Id" class="text-indigo-600 hover:text-indigo-800 text-sm font-medium mt-2 inline-block">
+                                Soru Detaylarını Gör →
+                            </a>
+                        </div>
+                    }
+                </div>
+            }
+            else
+            {
+                <p class="text-gray-500">Henüz soru sorulmamış.</p>
+            }
+        </div>
+    </div>
+</div>

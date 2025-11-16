@@ -23,6 +23,13 @@ namespace UnivForm.Data
         public DateTime? LastLogin { get; set; }
         public bool IsActive { get; set; } = true;
 
+        // --- Profil Alanları ---
+        [MaxLength(500)]
+        public string? Biography { get; set; }
+
+        [MaxLength(500)]
+        public string? ProfileImageUrl { get; set; }
+
         // --- Öğrenci tipi (Lise veya Üniversite) ---
         public StudentType? StudentType { get; set; }
 

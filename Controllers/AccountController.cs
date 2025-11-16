@@ -172,11 +172,12 @@ namespace UnivForm.Controllers
                     return View(model);
                 }
 
-                var result = await _signInManager.PasswordSignInAsync(user, model.Password, model.RememberMe,
-                    lockoutOnFailure: true);
+                // Use CheckPasswordSignInAsync so we can handle IsNotAllowed specially for Admins
+                var check = await _signInManager.CheckPasswordSignInAsync(user, model.Password, lockoutOnFailure: true);
 
-                if (result.Succeeded)
+                if (check.Succeeded)
                 {
+                    await _signInManager.SignInAsync(user, model.RememberMe);
                     _logger.LogInformation("Kullanıcı {UserName} giriş yaptı.", user.UserName);
                     user.LastLogin = DateTime.UtcNow;
                     await _userManager.UpdateAsync(user);
@@ -191,15 +192,33 @@ namespace UnivForm.Controllers
                     }
                 }
 
-                if (result.IsNotAllowed)
+                if (check.IsNotAllowed)
                 {
+                    // If user is admin, allow login even if email not confirmed
+                    if (await _userManager.IsInRoleAsync(user, "Admin"))
+                    {
+                        await _signInManager.SignInAsync(user, model.RememberMe);
+                        _logger.LogInformation("Admin kullanıcı {UserName} (email onayı olmadan) giriş yaptı.", user.UserName);
+                        user.LastLogin = DateTime.UtcNow;
+                        await _userManager.UpdateAsync(user);
+
+                        if (!string.IsNullOrEmpty(returnUrl) && Url.IsLocalUrl(returnUrl))
+                        {
+                            return Redirect(returnUrl);
+                        }
+                        else
+                        {
+                            return RedirectToAction("Index", "Home");
+                        }
+                    }
+
                     _logger.LogWarning("Kullanıcı {UserName} e-posta onayı olmadan giriş yapmaya çalıştı.", model.UsernameOrEmail);
                     ModelState.AddModelError(string.Empty,
                         "Giriş yapamazsınız. Lütfen önce e-posta adresinizi doğrulayın.");
                     return View(model);
                 }
 
-                if (result.IsLockedOut)
+                if (check.IsLockedOut)
                 {
                     _logger.LogWarning("Kilitlenen hesap {UserName} için giriş denemesi.", model.UsernameOrEmail);
                     ModelState.AddModelError(string.Empty, "Hesap kilitlendi, lütfen daha sonra tekrar deneyin.");

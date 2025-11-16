@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Identity;
+using Microsoft.Extensions.Logging;
 using UnivForm.Data;
 
 public static class SeedData
@@ -7,6 +8,8 @@ public static class SeedData
     {
         var roleManager = serviceProvider.GetRequiredService<RoleManager<AppRole>>();
         var userManager = serviceProvider.GetRequiredService<UserManager<AppUser>>();
+        var loggerFactory = serviceProvider.GetRequiredService<ILoggerFactory>();
+        var logger = loggerFactory.CreateLogger("SeedData");
 
         // Rolleri oluştur
         string[] roleNames = { "Admin", "User", "Manager", "Student" };
@@ -30,13 +33,16 @@ public static class SeedData
                 Email = "admin@univform.com",
                 FirstName = "Admin",
                 LastName = "User",
-                IsActive = true
+                IsActive = true,
+                EmailConfirmed = true // make seeded admin bypass email confirmation
             };
 
-            var createAdmin = await userManager.CreateAsync(admin, "Admin123!");
+            var password = "Admin123!";
+            var createAdmin = await userManager.CreateAsync(admin, password);
             if (createAdmin.Succeeded)
             {
                 await userManager.AddToRoleAsync(admin, "Admin");
+                logger.LogInformation("Seeded admin user: {Email} with password: {Password}", admin.Email, password);
             }
         }
     }
