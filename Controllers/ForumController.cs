@@ -68,7 +68,9 @@ namespace UnivForm.Controllers
                     Content = model.Content,
                     CategoryId = model.CategoryId,
                     AuthorId = user.Id,
-                    CreatedAt = DateTime.UtcNow
+                    CreatedAt = DateTime.UtcNow,
+                    SelectedEmoji = model.SelectedEmoji,
+                    GifUrl = model.GifUrl
                 };
 
                 _context.ForumThreads.Add(thread);

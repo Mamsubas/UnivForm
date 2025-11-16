@@ -16,6 +16,13 @@ namespace UnivForm.Models.ViewModels
         [Required(ErrorMessage = "Bir kategori seçmelisiniz.")]
         [Display(Name = "Kategori")]
         public int CategoryId { get; set; }
+
+        [Display(Name = "Emoji Seç")]
+        public string? SelectedEmoji { get; set; }
+
+        [Display(Name = "GIF URL'si")]
+        [Url(ErrorMessage = "Geçerli bir URL giriniz.")]
+        public string? GifUrl { get; set; }
     }
     public class CreatePostViewModel
     {

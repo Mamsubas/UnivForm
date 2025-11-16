@@ -1,0 +1,149 @@
+@using UnivForm.Models.ViewModels
+@model UserRolesViewModel
+@{
+    ViewData["Title"] = "Kullanıcı Rolleri Yönet";
+}
+
+<div class="max-w-2xl mx-auto bg-white p-8 rounded-lg shadow-md animate-fade-in">
+    <div class="mb-8">
+        <h1 class="text-3xl font-bold text-gray-900 mb-2">
+            <i class="fas fa-user-shield text-indigo-600 mr-2"></i>Kullanıcı Rolleri Yönet
+        </h1>
+        <p class="text-gray-600">
+            <strong>@Model.UserName</strong> (@Model.UserEmail) için rolleri seçiniz
+        </p>
+    </div>
+
+    <!-- Success/Error Messages -->
+    @if (TempData["SuccessMessage"] != null)
+    {
+        <div class="mb-6 p-4 bg-green-100 border-l-4 border-green-500 text-green-700 rounded animate-slide-down">
+            <i class="fas fa-check-circle mr-2"></i>@TempData["SuccessMessage"]
+        </div>
+    }
+    @if (TempData["ErrorMessage"] != null)
+    {
+        <div class="mb-6 p-4 bg-red-100 border-l-4 border-red-500 text-red-700 rounded animate-slide-down">
+            <i class="fas fa-exclamation-circle mr-2"></i>@TempData["ErrorMessage"]
+        </div>
+    }
+
+    <form method="post" class="space-y-6">
+        <input type="hidden" asp-for="UserId" />
+
+        <!-- Roles Grid -->
+        <div class="space-y-3">
+            @foreach (var role in Model.AllRoles)
+            {
+                var roleColors = role.RoleName switch
+                {
+                    "Admin" => "border-red-200 bg-red-50",
+                    "Moderator" => "border-purple-200 bg-purple-50",
+                    "Manager" => "border-blue-200 bg-blue-50",
+                    _ => "border-gray-200 bg-gray-50"
+                };
+
+                var roleIcons = role.RoleName switch
+                {
+                    "Admin" => "fas fa-crown",
+                    "Moderator" => "fas fa-gavel",
+                    "Manager" => "fas fa-briefcase",
+                    _ => "fas fa-user"
+                };
+
+                var roleDescriptions = role.RoleName switch
+                {
+                    "Admin" => "Tüm sistem erişimi ve yönetim yetkisi",
+                    "Moderator" => "Forum denetimi ve kullanıcı kontrol yetkisi",
+                    "Manager" => "Kategori ve içerik yönetimi",
+                    _ => "Temel forum erişimi"
+                };
+
+                <div class="border-2 @roleColors p-4 rounded-lg transition-all hover:shadow-md">
+                    <div class="flex items-center gap-3">
+                        <input type="checkbox" 
+                               class="w-5 h-5 text-indigo-600 rounded focus:ring-indigo-500 cursor-pointer"
+                               asp-for="@role.IsSelected"
+                               id="role_@role.RoleId" />
+                        
+                        <label for="role_@role.RoleId" class="flex-1 cursor-pointer">
+                            <div class="flex items-center gap-2">
+                                <i class="@roleIcons text-lg" style="color: @(role.RoleName switch {
+                                    "Admin" => "#dc2626",
+                                    "Moderator" => "#9333ea",
+                                    "Manager" => "#2563eb",
+                                    _ => "#6b7280"
+                                })"></i>
+                                <div>
+                                    <p class="font-semibold text-gray-900">@role.RoleName</p>
+                                    <p class="text-sm text-gray-600">@roleDescriptions</p>
+                                </div>
+                            </div>
+                        </label>
+
+                        <!-- Status Badge -->
+                        <div>
+                            @if (role.IsSelected)
+                            {
+                                <span class="inline-block px-3 py-1 bg-green-100 text-green-800 rounded-full text-sm font-semibold">
+                                    <i class="fas fa-check mr-1"></i>Seçili
+                                </span>
+                            }
+                            else
+                            {
+                                <span class="inline-block px-3 py-1 bg-gray-200 text-gray-700 rounded-full text-sm font-semibold">
+                                    <i class="fas fa-times mr-1"></i>Seçili Değil
+                                </span>
+                            }
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+
+        <!-- Action Buttons -->
+        <div class="flex justify-end gap-4 pt-6 border-t border-gray-200">
+            <a asp-action="Index" class="inline-flex items-center px-6 py-2 border-2 border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50 font-semibold transition">
+                <i class="fas fa-times mr-2"></i>İptal
+            </a>
+            <button type="submit" class="inline-flex items-center px-6 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 font-semibold transition">
+                <i class="fas fa-save mr-2"></i>Değişiklikleri Kaydet
+            </button>
+        </div>
+    </form>
+
+    <!-- Current Roles Summary -->
+    <div class="mt-8 p-4 bg-blue-50 border-l-4 border-blue-500 rounded-lg">
+        <p class="text-sm font-semibold text-blue-900 mb-2">
+            <i class="fas fa-info-circle mr-2"></i>Seçili Roller:
+        </p>
+        <div class="flex flex-wrap gap-2">
+            @{
+                var selectedRoles = Model.AllRoles.Where(r => r.IsSelected).Select(r => r.RoleName).ToList();
+                if (selectedRoles.Any())
+                {
+                    @foreach (var role in selectedRoles)
+                    {
+                        <span class="inline-block px-3 py-1 bg-blue-200 text-blue-800 rounded-full text-sm font-semibold">
+                            @role
+                        </span>
+                    }
+                }
+                else
+                {
+                    <span class="text-blue-700 italic">Henüz rol seçilmedi</span>
+                }
+            }
+        </div>
+    </div>
+</div>
+
+<style>
+    .animate-fade-in {
+        animation: fadeIn 0.5s ease-out;
+    }
+
+    .animate-slide-down {
+        animation: slideDown 0.3s ease-out;
+    }
+</style>

@@ -12,7 +12,7 @@ public static class SeedData
         var logger = loggerFactory.CreateLogger("SeedData");
 
         // Rolleri oluştur
-        string[] roleNames = { "Admin", "User", "Manager", "Student" };
+        string[] roleNames = { "Admin", "Moderator", "Manager", "User" };
 
         foreach (var roleName in roleNames)
         {

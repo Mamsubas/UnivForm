@@ -10,6 +10,10 @@ public class ForumThread
     public int ViewCount { get; set; } = 0;  // Popülerlik ölçüsü
     public DateTime? LastActivity { get; set; }  // Son aktivite zamanı
 
+    // Emoji ve Gif desteği
+    public string? SelectedEmoji { get; set; }  // 🎉, 😀, ❓ gibi emojiler
+    public string? GifUrl { get; set; }  // Gif URL'si
+
     // İlişkiler
     public int CategoryId { get; set; }
     public virtual Category Category { get; set; } = null!;

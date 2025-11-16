@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using UnivForm.Data;
 using UnivForm.Models;
+using UnivForm.Models.ViewModels;
 
 namespace UnivForm.Controllers;
 
@@ -186,6 +187,66 @@ public class AdminController : Controller
         }
 
         return RedirectToAction("Roles");
+    }
+
+    // GET: /Admin/ManageRoles/{id}
+    public async Task<IActionResult> ManageRoles(int id)
+    {
+        var user = await _userManager.FindByIdAsync(id.ToString());
+        if (user == null) return NotFound();
+
+        var allRoles = _roleManager.Roles.ToList();
+        var userRoles = await _userManager.GetRolesAsync(user);
+
+        var model = new UserRolesViewModel
+        {
+            UserId = user.Id,
+            UserName = $"{user.FirstName} {user.LastName}",
+            UserEmail = user.Email ?? "",
+            AllRoles = allRoles.Select(r => new RoleSelection
+            {
+                RoleId = r.Id,
+                RoleName = r.Name ?? "",
+                IsSelected = userRoles.Contains(r.Name ?? "")
+            }).ToList()
+        };
+
+        return View(model);
+    }
+
+    // POST: /Admin/ManageRoles
+    [HttpPost]
+    public async Task<IActionResult> ManageRoles(UserRolesViewModel model)
+    {
+        var user = await _userManager.FindByIdAsync(model.UserId.ToString());
+        if (user == null) return NotFound();
+
+        var userRoles = await _userManager.GetRolesAsync(user);
+        var selectedRoles = model.AllRoles
+            .Where(r => r.IsSelected)
+            .Select(r => r.RoleName)
+            .ToList();
+
+        // Remove user from roles that are not selected
+        foreach (var role in userRoles)
+        {
+            if (!selectedRoles.Contains(role))
+            {
+                await _userManager.RemoveFromRoleAsync(user, role);
+            }
+        }
+
+        // Add user to roles that are selected
+        foreach (var role in selectedRoles)
+        {
+            if (!userRoles.Contains(role))
+            {
+                await _userManager.AddToRoleAsync(user, role);
+            }
+        }
+
+        TempData["SuccessMessage"] = "Kullanıcı rolleri başarıyla güncellendi.";
+        return RedirectToAction("Index");
     }
 
     // POST: /Admin/AssignRole

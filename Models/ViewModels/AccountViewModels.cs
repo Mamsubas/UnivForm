@@ -133,4 +133,20 @@ namespace UnivForm.Models.ViewModels
         [Compare("Password", ErrorMessage = "Şifreler uyuşmuyor.")]
         public string ConfirmPassword { get; set; } = "";
     }
+
+    // Admin - Kullanıcı Rol Yönetimi
+    public class UserRolesViewModel
+    {
+        public int UserId { get; set; }
+        public string UserName { get; set; } = "";
+        public string UserEmail { get; set; } = "";
+        public List<RoleSelection> AllRoles { get; set; } = new();
+    }
+
+    public class RoleSelection
+    {
+        public int RoleId { get; set; }
+        public string RoleName { get; set; } = "";
+        public bool IsSelected { get; set; }
+    }
 }
