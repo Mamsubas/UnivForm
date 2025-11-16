@@ -7,14 +7,16 @@ public class ForumThread
     public string Content { get; set; } = null!;
     public DateTime CreatedAt { get; set; } = DateTime.Now;
     public bool IsDeleted { get; set; } = false;
+    public int ViewCount { get; set; } = 0;  // Popülerlik ölçüsü
+    public DateTime? LastActivity { get; set; }  // Son aktivite zamanı
 
     // İlişkiler
     public int CategoryId { get; set; }
     public virtual Category Category { get; set; } = null!;
 
-    public int AuthorId { get; set; } // BURAYI INT YAP
+    public int AuthorId { get; set; }
     [ForeignKey("AuthorId")]
-    public virtual UnivForm.Data.AppUser Author { get; set; } = null!; // BURAYI AppUser YAP
+    public virtual UnivForm.Data.AppUser Author { get; set; } = null!;
 
     public virtual ICollection<Post> Posts { get; set; } = null!;
 }

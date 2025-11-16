@@ -21,6 +21,36 @@ public class HomeController : Controller
 
     public IActionResult Index()
     {
+        // Dinamik veriler
+        var totalUsers = _context.Users.Count(u => u.IsActive);
+        var activeUsers = _context.Users.Count(u => u.IsActive && u.LastLogin.HasValue &&
+            u.LastLogin.Value.AddDays(7) > DateTime.Now);
+        var totalQuestions = _context.ForumThreads.Count(t => !t.IsDeleted);
+        var totalAnswers = _context.Posts.Count(p => !p.IsDeleted);
+
+        // Popüler konular (en çok yazı olan thread'ler)
+        var popularTopics = _context.ForumThreads
+            .Where(t => !t.IsDeleted)
+            .OrderByDescending(t => t.Posts.Count())
+            .ThenByDescending(t => t.ViewCount)
+            .Take(10)
+            .Select(t => new
+            {
+                t.Id,
+                t.Title,
+                t.CreatedAt,
+                PostCount = t.Posts.Count(p => !p.IsDeleted),
+                t.ViewCount,
+                Author = t.Author.FirstName + " " + t.Author.LastName
+            })
+            .ToList();
+
+        ViewBag.TotalUsers = totalUsers;
+        ViewBag.ActiveUsers = activeUsers;
+        ViewBag.TotalQuestions = totalQuestions;
+        ViewBag.TotalAnswers = totalAnswers;
+        ViewBag.PopularTopics = popularTopics;
+
         return View();
     }
 
@@ -55,6 +85,48 @@ public class HomeController : Controller
         ViewBag.LikesReceived = likesReceived;
         ViewBag.RecentPosts = recentPosts;
         ViewBag.RecentReplies = recentReplies;
+
+        return View();
+    }
+
+    public IActionResult PopularTopics(int page = 1, string sortBy = "posts")
+    {
+        int pageSize = 15;
+
+        var query = _context.ForumThreads
+            .Where(t => !t.IsDeleted)
+            .AsQueryable();
+
+        // Sıralama seçeneğine göre
+        query = sortBy switch
+        {
+            "views" => query.OrderByDescending(t => t.ViewCount).ThenByDescending(t => t.Posts.Count()),
+            "recent" => query.OrderByDescending(t => t.CreatedAt),
+            _ => query.OrderByDescending(t => t.Posts.Count()).ThenByDescending(t => t.ViewCount)
+        };
+
+        var totalCount = query.Count();
+        var topics = query
+            .Skip((page - 1) * pageSize)
+            .Take(pageSize)
+            .Select(t => new
+            {
+                t.Id,
+                t.Title,
+                t.CreatedAt,
+                t.CategoryId,
+                Category = t.Category.Title,
+                PostCount = t.Posts.Count(p => !p.IsDeleted),
+                t.ViewCount,
+                Author = t.Author.FirstName + " " + t.Author.LastName,
+                AuthorId = t.Author.Id
+            })
+            .ToList(); ViewBag.Topics = topics;
+        ViewBag.CurrentPage = page;
+        ViewBag.PageSize = pageSize;
+        ViewBag.TotalCount = totalCount;
+        ViewBag.TotalPages = (int)Math.Ceiling((double)totalCount / pageSize);
+        ViewBag.SortBy = sortBy;
 
         return View();
     }
