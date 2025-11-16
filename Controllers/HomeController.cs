@@ -121,7 +121,9 @@ public class HomeController : Controller
                 Author = t.Author.FirstName + " " + t.Author.LastName,
                 AuthorId = t.Author.Id
             })
-            .ToList(); ViewBag.Topics = topics;
+            .ToList();
+
+        ViewBag.Topics = topics;
         ViewBag.CurrentPage = page;
         ViewBag.PageSize = pageSize;
         ViewBag.TotalCount = totalCount;

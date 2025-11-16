@@ -64,7 +64,7 @@
                         <div class="p-4 max-h-96 overflow-y-auto">
                             @if (ViewBag.PopularTopics != null && ViewBag.PopularTopics.Count > 0)
                             {
-                                @foreach (var topic in ViewBag.PopularTopics.Take(5))
+                                @foreach (var topic in ViewBag.PopularTopics)
                                 {
                                     <div class="mb-4 pb-4 border-b border-gray-200 last:border-0 hover:bg-gray-50 p-2 rounded transition-colors">
                                         <a asp-controller="Forum" asp-action="Details" asp-route-id="@topic.Id" 
