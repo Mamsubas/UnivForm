@@ -27,6 +27,30 @@
         </div>
     }
 
+    <!-- Dashboard Statistics -->
+    <div class="grid grid-cols-1 md:grid-cols-5 gap-4 mb-8">
+        <div class="bg-white rounded-lg shadow p-6">
+            <p class="text-gray-600 text-sm">Toplam Kullanıcı</p>
+            <p class="text-4xl font-bold text-blue-600 mt-2">@ViewBag.TotalUsers</p>
+        </div>
+        <div class="bg-white rounded-lg shadow p-6">
+            <p class="text-gray-600 text-sm">Aktif Kullanıcı</p>
+            <p class="text-4xl font-bold text-green-600 mt-2">@ViewBag.ActiveUsers</p>
+        </div>
+        <div class="bg-white rounded-lg shadow p-6">
+            <p class="text-gray-600 text-sm">Toplam Soru</p>
+            <p class="text-4xl font-bold text-indigo-600 mt-2">@ViewBag.TotalThreads</p>
+        </div>
+        <div class="bg-white rounded-lg shadow p-6">
+            <p class="text-gray-600 text-sm">Toplam Cevap</p>
+            <p class="text-4xl font-bold text-purple-600 mt-2">@ViewBag.TotalPosts</p>
+        </div>
+        <div class="bg-white rounded-lg shadow p-6">
+            <p class="text-gray-600 text-sm">Rol Sayısı</p>
+            <p class="text-4xl font-bold text-red-600 mt-2">@ViewBag.TotalRoles</p>
+        </div>
+    </div>
+
     <div class="bg-white rounded-lg shadow overflow-x-auto">
         <table class="w-full text-sm">
             <thead class="bg-gray-100">

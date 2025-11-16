@@ -21,7 +21,7 @@ public class AdminController : Controller
         _context = context;
     }
 
-    // GET: /Admin
+    // GET: /Admin (Dashboard with Statistics)
     public async Task<IActionResult> Index()
     {
         var users = _userManager.Users.ToList();
@@ -46,6 +46,19 @@ public class AdminController : Controller
                 LastLogin = u.LastLogin
             });
         }
+
+        // Dashboard Statistics
+        var totalUsers = users.Count;
+        var activeUsers = users.Count(u => u.IsActive);
+        var totalThreads = _context.ForumThreads.Count();
+        var totalPosts = _context.Posts.Count(p => !p.IsDeleted);
+        var totalRoles = _roleManager.Roles.Count();
+
+        ViewBag.TotalUsers = totalUsers;
+        ViewBag.ActiveUsers = activeUsers;
+        ViewBag.TotalThreads = totalThreads;
+        ViewBag.TotalPosts = totalPosts;
+        ViewBag.TotalRoles = totalRoles;
 
         return View(model);
     }
