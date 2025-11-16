@@ -26,6 +26,7 @@
             @TempData["ErrorMessage"]
         </div>
     }
+    else { <!-- Remove duplicate --> }
 
     <!-- Dashboard Statistics -->
     <div class="grid grid-cols-1 md:grid-cols-5 gap-4 mb-8">
@@ -110,7 +111,7 @@
                                 <span class="text-gray-500">Henüz</span>
                             }
                         </td>
-                        <td class="px-4 py-3 space-x-1">
+                        <td class="px-4 py-3 space-x-1 flex flex-wrap gap-1">
                             <form asp-action="ToggleAdmin" method="post" class="inline">
                                 <input type="hidden" name="id" value="@u.Id" />
                                 <button type="submit" class="bg-indigo-600 hover:bg-indigo-700 text-white px-2 py-1 rounded text-xs">
@@ -122,6 +123,30 @@
                                 <input type="hidden" name="id" value="@u.Id" />
                                 <button type="submit" class="bg-gray-600 hover:bg-gray-700 text-white px-2 py-1 rounded text-xs">
                                     @(u.IsActive ? "Devre Dışı" : "Aktif")
+                                </button>
+                            </form>
+
+                            <a href="/Admin/WarnUser/@u.Id" class="bg-yellow-600 hover:bg-yellow-700 text-white px-2 py-1 rounded text-xs inline-block">
+                                ⚠️ Uyar
+                            </a>
+
+                            @if (u.IsBanned)
+                            {
+                                <a href="/Admin/UnbanUser/@u.Id" class="bg-green-600 hover:bg-green-700 text-white px-2 py-1 rounded text-xs inline-block">
+                                    ✓ Yasak Kaldır
+                                </a>
+                            }
+                            else
+                            {
+                                <a href="/Admin/BanUser/@u.Id" class="bg-red-600 hover:bg-red-700 text-white px-2 py-1 rounded text-xs inline-block">
+                                    🚫 Yasakla
+                                </a>
+                            }
+
+                            <form asp-action="DeleteUser" method="post" class="inline" onsubmit="return confirm('Bu kullanıcıyı ve tüm verilerini silmek istediğinize emin misiniz?');">
+                                <input type="hidden" name="id" value="@u.Id" />
+                                <button type="submit" class="bg-black hover:bg-gray-800 text-white px-2 py-1 rounded text-xs">
+                                    🗑️ Sil
                                 </button>
                             </form>
                         </td>

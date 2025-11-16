@@ -41,5 +41,12 @@ namespace UnivForm.Data
 
         // --- YENİ: UniversityStudent ilişkisi ---
         public UniversityStudent? UniversityStudent { get; set; }
+
+        // --- Ban ve Uyarı Sistemi ---
+        public bool IsBanned { get; set; } = false;
+        public DateTime? BannedAt { get; set; }
+        public string? BanReason { get; set; }
+        public int WarningCount { get; set; } = 0;
+        public DateTime? LastWarning { get; set; }
     }
 }

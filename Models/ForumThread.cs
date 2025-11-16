@@ -6,6 +6,7 @@ public class ForumThread
     public string Title { get; set; } = null!;
     public string Content { get; set; } = null!;
     public DateTime CreatedAt { get; set; } = DateTime.Now;
+    public bool IsDeleted { get; set; } = false;
 
     // İlişkiler
     public int CategoryId { get; set; }

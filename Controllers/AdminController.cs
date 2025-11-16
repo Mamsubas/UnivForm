@@ -41,6 +41,7 @@ public class AdminController : Controller
                 Roles = roles.ToList(),
                 IsAdmin = roles.Contains("Admin"),
                 IsActive = u.IsActive,
+                IsBanned = u.IsBanned,
                 PostCount = postCount,
                 CreatedAt = u.CreatedAt,
                 LastLogin = u.LastLogin
@@ -285,6 +286,91 @@ public class AdminController : Controller
         return RedirectToAction("Index");
     }
 
+    // GET: /Admin/WarnUser/{id}
+    public async Task<IActionResult> WarnUser(int id)
+    {
+        var user = await _userManager.FindByIdAsync(id.ToString());
+        if (user == null) return NotFound();
+
+        user.WarningCount++;
+        user.LastWarning = DateTime.UtcNow;
+        await _userManager.UpdateAsync(user);
+        TempData["SuccessMessage"] = $"Kullanıcı uyarıldı. (Toplam Uyarı: {user.WarningCount})";
+        return RedirectToAction("Index");
+    }
+
+    // GET: /Admin/BanUser/{id}
+    public async Task<IActionResult> BanUser(int id)
+    {
+        var user = await _userManager.FindByIdAsync(id.ToString());
+        if (user == null) return NotFound();
+
+        user.IsBanned = true;
+        user.BannedAt = DateTime.UtcNow;
+        user.BanReason = "Admin tarafından yasaklandı";
+        await _userManager.UpdateAsync(user);
+        TempData["SuccessMessage"] = "Kullanıcı yasaklandı.";
+        return RedirectToAction("Index");
+    }
+
+    // GET: /Admin/UnbanUser/{id}
+    public async Task<IActionResult> UnbanUser(int id)
+    {
+        var user = await _userManager.FindByIdAsync(id.ToString());
+        if (user == null) return NotFound();
+
+        user.IsBanned = false;
+        user.BannedAt = null;
+        user.BanReason = null;
+        await _userManager.UpdateAsync(user);
+        TempData["SuccessMessage"] = "Kullanıcının yasağı kaldırıldı.";
+        return RedirectToAction("Index");
+    }
+
+    // POST: /Admin/DeleteUser/{id}
+    [HttpPost]
+    public async Task<IActionResult> DeleteUser(int id)
+    {
+        var user = await _userManager.FindByIdAsync(id.ToString());
+        if (user == null) return NotFound();
+
+        // Prevent deleting the current admin
+        var currentUser = await _userManager.GetUserAsync(User);
+        if (currentUser?.Id == id)
+        {
+            TempData["ErrorMessage"] = "Kendi hesabınızı silemezsiniz.";
+            return RedirectToAction("Index");
+        }
+
+        // Delete user's posts and threads (soft delete)
+        var userThreads = _context.ForumThreads.Where(t => t.AuthorId == id);
+        var userPosts = _context.Posts.Where(p => p.AuthorId == id);
+
+        foreach (var thread in userThreads)
+        {
+            thread.IsDeleted = true;
+        }
+        foreach (var post in userPosts)
+        {
+            post.IsDeleted = true;
+        }
+
+        await _context.SaveChangesAsync();
+
+        // Delete user
+        var result = await _userManager.DeleteAsync(user);
+        if (result.Succeeded)
+        {
+            TempData["SuccessMessage"] = "Kullanıcı ve tüm verileri silindi.";
+        }
+        else
+        {
+            TempData["ErrorMessage"] = "Kullanıcı silinirken hata oluştu.";
+        }
+
+        return RedirectToAction("Index");
+    }
+
     public class AdminUserViewModel
     {
         public int Id { get; set; }
@@ -293,6 +379,7 @@ public class AdminController : Controller
         public List<string> Roles { get; set; } = new();
         public bool IsAdmin { get; set; }
         public bool IsActive { get; set; }
+        public bool IsBanned { get; set; }
         public int PostCount { get; set; }
         public DateTime CreatedAt { get; set; }
         public DateTime? LastLogin { get; set; }
