@@ -33,8 +33,9 @@
 
         <!-- Roles Grid -->
         <div class="space-y-3">
-            @foreach (var role in Model.AllRoles)
+            @for (int i = 0; i < Model.AllRoles.Count; i++)
             {
+                var role = Model.AllRoles[i];
                 var roleColors = role.RoleName switch
                 {
                     "Admin" => "border-red-200 bg-red-50",
@@ -61,10 +62,14 @@
 
                 <div class="border-2 @roleColors p-4 rounded-lg transition-all hover:shadow-md">
                     <div class="flex items-center gap-3">
+                        <input type="hidden" name="AllRoles[@i].RoleId" value="@role.RoleId" />
+                        <input type="hidden" name="AllRoles[@i].RoleName" value="@role.RoleName" />
+                        
                         <input type="checkbox" 
                                class="w-5 h-5 text-indigo-600 rounded focus:ring-indigo-500 cursor-pointer"
-                               asp-for="@role.IsSelected"
-                               id="role_@role.RoleId" />
+                               name="AllRoles[@i].IsSelected"
+                               id="role_@role.RoleId"
+                               @(role.IsSelected ? "checked" : "") />
                         
                         <label for="role_@role.RoleId" class="flex-1 cursor-pointer">
                             <div class="flex items-center gap-2">
