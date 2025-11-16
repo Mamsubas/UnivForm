@@ -1,0 +1,95 @@
+@using Microsoft.AspNetCore.Identity
+@model UnivForm.Models.ViewModels.PostViewModel
+@inject UserManager<UnivForm.Data.AppUser> UserManager
+
+@{
+    var currentUserId = 0;
+    if (User.Identity?.IsAuthenticated == true) // DÜZELTME 1: ?. eklendi
+    {
+        currentUserId = int.Parse(UserManager.GetUserId(User)!); // DÜZELTME 2: ! eklendi
+    }
+    var isAuthor = Model.Post.AuthorId == currentUserId;
+    var isAdmin = User.IsInRole("Admin");
+}
+<div class="space-y-4 @(Model.Post.ParentPostId != null ? "ml-8 md:ml-12" : "")">
+
+    <div id="post-@Model.Post.Id" class="bg-white shadow rounded-lg p-5">
+        <div class="flex items-center mb-3">
+            <div class="flex-shrink-0 h-10 w-10 bg-indigo-100 rounded-full flex items-center justify-center text-indigo-600 font-bold">
+                @Model.Post.Author.FirstName.Substring(0, 1)@Model.Post.Author.LastName.Substring(0, 1)
+            </div>
+            <div class="ml-3">
+                <div class="font-medium text-gray-900">@Model.Post.Author.FirstName @Model.Post.Author.LastName</div>
+                <div class="text-sm text-gray-500">
+                    @Model.Post.CreatedAt.ToString("dd MMMM yyyy, HH:mm")
+                    @if (Model.Post.EditedAt != null)
+                    {
+                        <span class="text-gray-400 italic">(Düzenlendi)</span>
+                    }
+                </div>
+            </div>
+        </div>
+        
+        <div class="text-gray-700 mb-3">
+            @if (Model.Post.IsDeleted)
+            {
+                <p class="italic text-gray-500">@Model.Post.Content</p>
+            }
+            else
+            {
+                <p>@Model.Post.Content</p>
+            }
+        </div>
+        
+        @if (!Model.Post.IsDeleted)
+        {
+            <div class="flex items-center justify-between">
+                <div class="flex items-center space-x-4">
+                    <form asp-action="ToggleLike" method="post" class="inline-block">
+                        @Html.AntiForgeryToken()
+                        <input type="hidden" name="postId" value="@Model.Post.Id" />
+                        <button type="submit" class="flex items-center text-sm font-medium transition-colors duration-200
+                                @(Model.UserHasLiked ? "text-blue-600 hover:text-blue-500" : "text-gray-500 hover:text-gray-700")">
+                            @if(Model.UserHasLiked) { <i class="fas fa-thumbs-up mr-1"></i> }
+                            else { <i class="far fa-thumbs-up mr-1"></i> }
+                            Beğen (@Model.LikeCount)
+                        </button>
+                    </form>
+                    
+                    <button type="button" onclick="moveReplyForm(@Model.Post.Id)" class="text-sm font-medium text-gray-500 hover:text-gray-700">
+                        <i class="far fa-comment-alt mr-1"></i> Yorum Yap
+                    </button>
+                </div>
+
+                @if (isAuthor || isAdmin)
+                {
+                    <div class="flex items-center space-x-3">
+                        <a asp-controller="Forum" asp-action="EditPost" asp-route-id="@Model.Post.Id" class="text-sm font-medium text-green-600 hover:text-green-800">
+                            Düzenle
+                        </a>
+                        
+                        <form asp-controller="Forum" asp-action="DeletePost" method="post" class="inline-block">
+                            @Html.AntiForgeryToken()
+                            <input type="hidden" name="postId" value="@Model.Post.Id" />
+                            <button type="submit" 
+                                    onclick="return confirm('Bu yorumu silmek istediğinize emin misiniz? Bu işlem geri alınamaz.');" 
+                                    class="text-sm font-medium text-red-600 hover:text-red-800">
+                                Sil
+                            </button>
+                        </form>
+                    </div>
+                }
+            </div>
+        }
+    </div>
+    
+    <div id="reply-form-container-@Model.Post.Id" class="ml-4 md:ml-8"></div>
+
+    @if (Model.Replies != null && Model.Replies.Any())
+    {
+        @foreach (var reply in Model.Replies)
+        {
+            <partial name="_PostComment" model="reply" />
+        }
+    }
+</div>

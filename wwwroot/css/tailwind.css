@@ -1,0 +1,8 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Project custom styles can go below. */
+
+/* Example: body background using Tailwind's classes in utilities (you can also set here) */
+/* :root { --brand: #2563eb; } */

@@ -1,0 +1,80 @@
+@model UnivForm.Models.ViewModels.RegisterViewModel
+@{
+    ViewData["Title"] = "Kayıt Ol";
+}
+
+<div class="min-h-screen bg-gray-50 flex flex-col justify-center py-12 sm:px-6 lg:px-8">
+    <div class="sm:mx-auto sm:w-full sm:max-w-md">
+        <h2 class="mt-6 text-center text-3xl font-extrabold text-gray-900">
+            Yeni Hesap Oluştur
+        </h2>
+    </div>
+
+    <div class="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
+        <div class="bg-white py-8 px-4 shadow sm:rounded-lg sm:px-10">
+            <form class="space-y-6" asp-action="Register" method="post">
+                <div asp-validation-summary="ModelOnly" class="text-red-600"></div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                        <label asp-for="FirstName" class="block text-sm font-medium text-gray-700"></label>
+                        <div class="mt-1">
+                            <input asp-for="FirstName" class="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                            <span asp-validation-for="FirstName" class="text-red-600 text-sm"></span>
+                        </div>
+                    </div>
+                    <div>
+                        <label asp-for="LastName" class="block text-sm font-medium text-gray-700"></label>
+                        <div class="mt-1">
+                            <input asp-for="LastName" class="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                            <span asp-validation-for="LastName" class="text-red-600 text-sm"></span>
+                        </div>
+                    </div>
+                </div>
+
+                <div>
+                    <label asp-for="Username" class="block text-sm font-medium text-gray-700"></label>
+                    <div class="mt-1">
+                        <input asp-for="Username" class="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                        <span asp-validation-for="Username" class="text-red-600 text-sm"></span>
+                    </div>
+                </div>
+                
+                <div>
+                    <label asp-for="Email" class="block text-sm font-medium text-gray-700"></label>
+                    <div class="mt-1">
+                        <input asp-for="Email" class="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                        <span asp-validation-for="Email" class="text-red-600 text-sm"></span>
+                    </div>
+                </div>
+
+                <div>
+                    <label asp-for="Password" class="block text-sm font-medium text-gray-700"></label>
+                    <div class="mt-1">
+                        <input asp-for="Password" class="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                        <span asp-validation-for="Password" class="text-red-600 text-sm"></span>
+                    </div>
+                </div>
+                
+                <div>
+                    <label asp-for="ConfirmPassword" class="block text-sm font-medium text-gray-700"></label>
+                    <div class="mt-1">
+                        <input asp-for="ConfirmPassword" class="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                        <span asp-validation-for="ConfirmPassword" class="text-red-600 text-sm"></span>
+                    </div>
+                </div>
+
+                <div>
+                    <button type="submit" class="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                        Kayıt Ol
+                    </button>
+                </div>
+            </form>
+             <div class="mt-6 text-center">
+                 <a asp-action="Login" class="font-medium text-indigo-600 hover:text-indigo-500">
+                     Zaten bir hesabın var mı? Giriş yap.
+                 </a>
+            </div>
+        </div>
+    </div>
+</div>

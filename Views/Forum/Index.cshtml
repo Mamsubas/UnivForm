@@ -1,0 +1,61 @@
+@model IEnumerable<Category>
+@{
+    ViewData["Title"] = "Forum Ana Sayfası";
+}
+
+<div class="container mx-auto px-4 py-8">
+
+    <div class="flex justify-between items-center mb-6">
+        <h1 class="text-3xl font-bold text-gray-800">Forum Kategorileri</h1>
+        <a asp-action="CreateThread" class="inline-block bg-indigo-600 text-white hover:bg-indigo-700 font-bold py-2 px-5 rounded-lg transition-all duration-300 transform hover:scale-105 shadow-md">
+            <i class="fas fa-plus mr-2"></i>Yeni Konu Aç
+        </a>
+    </div>
+
+    @foreach (var category in Model)
+    {
+        <div class="bg-white shadow-lg rounded-lg overflow-hidden mb-8">
+            <div class="bg-gray-800 text-white p-4">
+                <h2 class="text-2xl font-semibold">@category.Title</h2>
+                <p class="text-gray-300 text-sm">@category.Description</p>
+            </div>
+
+            <ul class="divide-y divide-gray-200">
+                @if (!category.Threads.Any())
+                {
+                    <li class="p-4 text-gray-500 text-center">Bu kategoride henüz konu açılmamış.</li>
+                }
+                
+                @foreach (var thread in category.Threads.OrderByDescending(t => t.CreatedAt))
+                {
+                    <li class="p-4 flex flex-col sm:flex-row justify-between items-start sm:items-center hover:bg-gray-50 transition-colors">
+                        <div class="flex items-center mb-2 sm:mb-0">
+                            <div class="flex-shrink-0 h-10 w-10 bg-indigo-100 rounded-full flex items-center justify-center text-indigo-600 font-bold">
+                                @thread.Author.FirstName.Substring(0, 1)
+                            </div>
+                            <div class="ml-4">
+                               <div class="ml-4">
+                                <a asp-controller="Forum" asp-action="ThreadDetail" asp-route-id="@thread.Id" class="text-lg font-medium text-indigo-700 hover:text-indigo-900">@thread.Title</a>
+                                <p class="text-sm text-gray-600">
+                                <p class="text-sm text-gray-600">
+                                    Yazar: <span class="font-medium">@thread.Author.FirstName @thread.Author.LastName</span>
+                                    <span class="mx-1">·</span>
+                                    @thread.CreatedAt.ToString("dd MMMM yyyy")
+                                </p>
+                            </div>
+                        </div>
+
+                        <div class="flex-shrink-0 flex space-x-4 text-sm text-gray-500 text-right">
+                            <div>
+                                <span class="font-semibold text-gray-700">@thread.Posts.Count()</span> Yorum
+                            </div>
+                            <div>
+                                <span class="font-semibold text-gray-700">0</span> Görüntülenme
+                            </div>
+                        </div>
+                    </li>
+                }
+            </ul>
+        </div>
+    }
+</div>

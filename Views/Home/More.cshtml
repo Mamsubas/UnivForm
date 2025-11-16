@@ -1,0 +1,176 @@
+@* Daha iyi erişilebilirlik, semantic yapı ve küçük interaktif öğeler eklenmiştir *@
+<section class="bg-white  my-20">
+
+    <!-- Hero -->
+    <section class="py-16 md:py-24 bg-gradient-to-b from-gray-50 to-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <nav class="text-sm mb-6" aria-label="Breadcrumb">
+                <ol class="list-none p-0 inline-flex">
+                    <li class="flex items-center text-gray-500"><a asp-controller="Home" asp-action="Index" class="hover:underline">Anasayfa</a>
+                        <svg class="w-3 h-3 mx-2 text-gray-400" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+                    </li>
+                    <li class="text-gray-700 font-medium">Hakkımızda</li>
+                </ol>
+            </nav>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-10 items-center">
+                <div>
+                    <p class="inline-flex items-center px-3 py-1 rounded-full bg-indigo-100 text-indigo-700 text-sm font-semibold">Öğrenci Dostu</p>
+                    <h1 class="mt-4 text-3xl sm:text-4xl md:text-5xl font-extrabold text-gray-900">Öğrenciler Tarafından, Öğrenciler İçin</h1>
+                    <p class="mt-6 text-lg text-gray-600 leading-relaxed">Kampüs hayatını kolaylaştırmak, bilgi paylaşımını hızlandırmak ve yeni arkadaşlıklar kurmaya yardımcı olmak için bu platformu oluşturduk. Güvenli, açık ve destekleyici bir ortam sunuyoruz.</p>
+                    <div class="mt-8 flex flex-wrap gap-3">
+                        <a href="#" class="inline-flex items-center justify-center px-5 py-3 bg-indigo-600 text-white rounded-lg shadow hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500" aria-label="Kayıt ol">
+                            <!-- user-plus svg -->
+                            <svg class="w-4 h-4 mr-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18 9v6M21 12h-6M12 11a4 4 0 100-8 4 4 0 000 8zm0 1v4m0 0H6m6 0h6"/></svg>
+                            Hemen Katıl
+                        </a>
+                        <a href="#features" class="inline-flex items-center justify-center px-5 py-3 border border-gray-200 rounded-lg text-gray-700 hover:bg-gray-50">Özellikleri Gör</a>
+                    </div>
+                </div>
+
+                <div class="order-first md:order-last">
+                    <figure class="w-full h-80 bg-gradient-to-br from-indigo-50 to-white rounded-2xl shadow-lg overflow-hidden flex items-center justify-center">
+                        <img src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&w=1200&q=60" alt="Öğrenciler birlikte çalışıyor" class="object-cover w-full h-full" loading="lazy" />
+                    </figure>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features -->
+    <section id="features" class="py-16 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center">
+                <h2 class="text-3xl font-bold text-gray-900">Platformumuzun Amacı</h2>
+                <p class="mt-3 text-lg text-gray-600 max-w-2xl mx-auto">Sadece bir forum değil; ders paylaşımı, etkinlik organizasyonu ve kariyer desteği sağlayan bir öğrenci ağıyız.</p>
+            </div>
+
+            <div class="mt-12 grid grid-cols-1 md:grid-cols-3 gap-8">
+                <!-- Feature 1 -->
+                <article class="p-6 rounded-xl border border-transparent hover:border-indigo-100 transition-shadow shadow-sm hover:shadow-md bg-gray-50">
+                    <div class="flex items-center justify-center h-12 w-12 rounded-full bg-indigo-100 text-indigo-600">
+                        <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-3.314 0-6 1.79-6 4v2h12v-2c0-2.21-2.686-4-6-4zM12 14v6"/></svg>
+                    </div>
+                    <h3 class="mt-5 text-xl font-semibold text-gray-900">Bilgi Paylaşımı</h3>
+                    <p class="mt-3 text-sm text-gray-600">Ders notları, proje örnekleri ve sınav ipuçlarını paylaş. Tecrübe edenlerle doğrudan iletişim kur.</p>
+                </article>
+
+                <!-- Feature 2 -->
+                <article class="p-6 rounded-xl border border-transparent hover:border-indigo-100 transition-shadow shadow-sm hover:shadow-md bg-gray-50">
+                    <div class="flex items-center justify-center h-12 w-12 rounded-full bg-indigo-100 text-indigo-600">
+                        <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a4 4 0 00-4-4h-1M9 20H4v-2a4 4 0 014-4h1m6-2a4 4 0 11-8 0 4 4 0 018 0z"/></svg>
+                    </div>
+                    <h3 class="mt-5 text-xl font-semibold text-gray-900">Topluluk & Etkinlik</h3>
+                    <p class="mt-3 text-sm text-gray-600">Kulüpler, sosyal etkinlikler ve bölüm buluşmalarıyla kampüs içi bağları güçlendir.</p>
+                </article>
+
+                <!-- Feature 3 -->
+                <article class="p-6 rounded-xl border border-transparent hover:border-indigo-100 transition-shadow shadow-sm hover:shadow-md bg-gray-50">
+                    <div class="flex items-center justify-center h-12 w-12 rounded-full bg-indigo-100 text-indigo-600">
+                        <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-3.314 0-6 1.79-6 4v2h12v-2c0-2.21-2.686-4-6-4zM12 14v6"/></svg>
+                    </div>
+                    <h3 class="mt-5 text-xl font-semibold text-gray-900">Kariyer & Staj</h3>
+                    <p class="mt-3 text-sm text-gray-600">Staj ilanları, CV ipuçları ve bölüm rehberleriyle kariyer yolunda yanındayız.</p>
+                </article>
+            </div>
+        </div>
+    </section>
+
+    <!-- Story -->
+    <section class="py-16 bg-indigo-700 text-white rounded-2xl">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+                <div class="order-2 md:order-1">
+                    <h2 class="text-2xl md:text-3xl font-bold">Biz Nasıl Başladık?</h2>
+                    <p class="mt-4 text-indigo-100 leading-relaxed">Merhabalar ben Muhammed Emin Öncelikle ben bir üniversite öğrencisiyim.Bilgisiyar programcılığı okuyorum.Hepmiz üniversite tercihi yapar iken aynı sıkıntıyı çekmişizdir işte hangi hocalar iyi ,hocalar nasıl ders anlatıyor,ders işleyişi nasıl vs. soruları aklımıza gelmiştir işte bizde buna çare bulabilmek adına bu platformu kuruyorum ve sizlere sunuyorum.Bu platformu geliştirmemdeki sebeb arkadaşım <span class="font-bold">Sami</span> 'dir.Onun sayesinde sizlere bu platformu geliştirmeyi amaçladım ve elimden geldiğince özenerek ve dikkat ederek çalıştım.</p>
+                    <p class="mt-4 text-indigo-100 leading-relaxed">Amacımız, bizden sonra gelen öğrencilerin de faydalanabileceği sürdürülebilir bir kaynak oluşturmaktır.Yeni gelen arkdaşlarımıza nasıl bir işleyiş var onu anlatmak ve sosyaleşme imkanı sunmaktır.</p>
+                </div>
+                <div class="order-1 md:order-2">
+                    <div class="rounded-2xl bg-white/10 p-6 shadow-inner flex items-center justify-center h-56">
+                        <svg class="w-20 h-20 text-indigo-200" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 6v6l4 2"/></svg>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Team -->
+    <section class="py-16 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center">
+                <h2 class="text-3xl font-bold text-gray-900">Moderatör Ekibimiz</h2>
+                <p class="mt-3 text-gray-600 max-w-2xl mx-auto">Gönüllü moderatörlerimiz forumu güvenli ve düzenli tutar. İşte bazı ekip üyelerimiz.</p>
+            </div>
+
+            <div class="mt-10 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
+                @* Tekrarlanabilir kart örneği *@
+                <div class="text-center bg-gray-50 p-6 rounded-xl shadow-sm hover:shadow-md transition">
+                    <img loading="lazy" class="w-24 h-24 rounded-full mx-auto shadow-md object-cover" src="https://via.placeholder.com/300" alt="Muhammed  Emin">
+                    <h3 class="mt-4 text-lg font-semibold text-gray-900">Muhammed Emin</h3>
+                    <p class="mt-1 text-sm text-indigo-600">Proje Yönetisi</p>
+                    <p class="mt-2 text-xs text-gray-500">Bilgisayar programcılığı - 1. Sınıf</p>
+                </div>
+
+                <div class="text-center bg-gray-50 p-6 rounded-xl shadow-sm hover:shadow-md transition">
+                    <img loading="lazy" class="w-24 h-24 rounded-full mx-auto shadow-md object-cover" src="https://via.placeholder.com/300" alt="Sami">
+                    <h3 class="mt-4 text-lg font-semibold text-gray-900">Sami</h3>
+                    <p class="mt-1 text-sm text-indigo-600">İçerik Moderatörü</p>
+                    <p class="mt-2 text-xs text-gray-500">Yapay zeka - 1. Sınıf</p>
+                </div>
+
+                <div class="text-center bg-gray-50 p-6 rounded-xl shadow-sm hover:shadow-md transition">
+                    <img loading="lazy" class="w-24 h-24 rounded-full mx-auto shadow-md object-cover" src="https://via.placeholder.com/300" alt="Ömer Can Kaplan">
+                    <h3 class="mt-4 text-lg font-semibold text-gray-900">Ömer Can Kaplan</h3>
+                    <p class="mt-1 text-sm text-indigo-600">Etkinlik Sorumlusu</p>
+                    <p class="mt-2 text-xs text-gray-500">Elektrik-Elektronik Mühendisliği - 3. Sınıf</p>
+                </div>
+
+              
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ Accordion -->
+    <section class="py-16 bg-gray-50">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+            <h2 class="text-2xl font-bold text-gray-900 text-center">Sık Sorulan Sorular</h2>
+            <div class="mt-6 space-y-3">
+                <details class="group bg-white border rounded-lg p-4" open>
+                    <summary class="flex justify-between items-center cursor-pointer list-none">
+                        <span class="font-medium">Nasıl kayıt olabilirim?</span>
+                        <span class="ml-4 text-indigo-600 group-open:rotate-180 transition-transform">▾</span>
+                    </summary>
+                    <div class="mt-3 text-gray-600">Hesap oluşturmak için sağ üstten kaydol butonuna tıklayın ve gerekli bilgileri doldurun. Onay e-postasını aldıktan sonra oturum açabilirsiniz.</div>
+                </details>
+
+                <details class="group bg-white border rounded-lg p-4">
+                    <summary class="flex justify-between items-center cursor-pointer list-none">
+                        <span class="font-medium">Öğrenci olmayanlar katılabilir mi?</span>
+                        <span class="ml-4 text-indigo-600 group-open:rotate-180 transition-transform">▾</span>
+                    </summary>
+                    <div class="mt-3 text-gray-600">Platform öncelikli olarak öğrencilere yöneliktir; bazı bölümler misafirlere açılabilir. İlgili kural ve rehberleri okuyunuz.</div>
+                </details>
+
+                <details class="group bg-white border rounded-lg p-4">
+                    <summary class="flex justify-between items-center cursor-pointer list-none">
+                        <span class="font-medium">Sadece üniversite öğrencilerine mi yönelik ?</span>
+                        <span class="ml-4 text-indigo-600 group-open:rotate-180 transition-transform">▾</span>
+                    </summary>
+                    <div class="mt-3 text-gray-600">Hayır sadece üniversite öğrencilerine yönelik değildir.Yks'ye giricek olan öğrenciler ve lise son sınıftaki öğrencilerde girebilir.</div>
+                </details>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA -->
+    <section class="py-12 bg-gradient-to-b from-gray-50 to-white">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <h2 class="text-2xl md:text-3xl font-bold text-gray-900">Topluluğumuza Katılmaya Hazır mısın?</h2>
+            <p class="mt-3 text-gray-600">Hemen kaydol, ilk konunu aç veya sorulara yanıt ver. Binlerce öğrenci seni bekliyor!</p>
+            <div class="mt-6">
+                <a href="#" class="inline-flex items-center gap-3 bg-indigo-600 text-white px-6 py-3 rounded-lg hover:bg-indigo-700 focus:ring-2 focus:ring-indigo-500">Katıl ve Başla</a>
+            </div>
+        </div>
+    </section>
+
+</section>

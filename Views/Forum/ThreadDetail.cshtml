@@ -1,0 +1,138 @@
+@model UnivForm.Models.ViewModels.ThreadDetailViewModel
+@using Microsoft.AspNetCore.Identity
+@using UnivForm.Data
+@inject SignInManager<AppUser> SignInManager
+
+@{
+    ViewData["Title"] = Model.Thread.Title;
+}
+
+<div class="max-w-4xl mx-auto">
+
+    <div class="bg-white shadow-lg rounded-lg overflow-hidden mb-6">
+        <div class="p-6">
+            <h1 class="text-3xl font-bold text-gray-900 mb-3">@Model.Thread.Title</h1>
+            <div class="text-sm text-gray-600 mb-4 border-b pb-3">
+                Yazar: <span class="font-medium text-indigo-700">@Model.Thread.Author.FirstName @Model.Thread.Author.LastName</span>
+                <span class="mx-2">|</span>
+                Tarih: @Model.Thread.CreatedAt.ToString("dd MMMM yyyy, HH:mm")
+            </div>
+            <div class="prose max-w-none text-gray-800">
+                <p>@Model.Thread.Content</p>
+            </div>
+        </div>
+    </div>
+
+    <h2 class="text-2xl font-semibold text-gray-800 mb-4">Cevaplar (@Model.Posts.Count())</h2>
+    <div class="space-y-4">
+        
+        @foreach (var post in Model.Posts)
+        {
+            <partial name="_PostComment" model="post" />
+        }
+
+        @if (!Model.Posts.Any())
+        {
+            <div class="bg-white shadow rounded-lg p-5 text-center text-gray-500">
+                Henüz cevap yazılmamış. İlk cevabı sen yaz!
+            </div>
+        }
+    </div>
+
+    <hr class="my-8" />
+
+    <div id="form-original-location"></div>
+
+    @if (SignInManager.IsSignedIn(User))
+    {
+        <div id="main-reply-form-container">
+            <div class="bg-white shadow rounded-lg p-6">
+                <h3 id="reply-form-title" class="text-xl font-semibold text-gray-800 mb-4">Konuya Cevap Yaz</h3>
+                
+                <form asp-action="AddPost" method="post">
+                    @Html.AntiForgeryToken()
+                    <div asp-validation-summary="ModelOnly" class="text-red-600 mb-3"></div>
+
+                    <input type="hidden" asp-for="NewPost.ThreadId" />
+                    <input type="hidden" asp-for="NewPost.ParentPostId" id="ParentPostIdInput" />
+                    
+                    <div>
+                        <label asp-for="NewPost.Content" class="sr-only"></label>
+                        <textarea asp-for="NewPost.Content" rows="5" class="block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" placeholder="Düşüncelerini paylaş..."></textarea>
+                        <span asp-validation-for="NewPost.Content" class="text-red-600 text-sm mt-1"></span>
+                    </div>
+
+                    <div class="mt-4 flex justify-between items-center">
+                        <button type="button" id="cancel-reply-btn" onclick="cancelReply()" class="text-sm font-medium text-gray-500 hover:text-gray-700" style="display: none;">
+                            İptal
+                        </button>
+                        
+                        <button type="submit" class="inline-flex justify-center py-2 px-6 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none ml-auto">
+                            Gönder
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    }
+    else
+    {
+        <div class="bg-yellow-50 border-l-4 border-yellow-400 p-4 rounded-md">
+            <div class="flex">
+                <div class="flex-shrink-0">
+                    <i class="fas fa-exclamation-triangle text-yellow-500"></i>
+                </div>
+                <div class="ml-3">
+                    <p class="text-sm text-yellow-700">
+                        Cevap yazabilmek için lütfen
+                        <a asp-controller="Account" asp-action="Login" asp-route-returnUrl="@Context.Request.Path" class="font-medium underline hover:text-yellow-600">giriş yapın</a>.
+                    </p>
+                </div>
+            </div>
+        </div>
+    }
+</div>
+
+@section Scripts {
+    <script>
+        // Formun taşınacağı ana container'ı ve
+        // içindeki önemli elementleri saklayalım
+        const replyFormContainer = document.getElementById('main-reply-form-container');
+        const parentIdInput = document.getElementById('ParentPostIdInput');
+        const formTitle = document.getElementById('reply-form-title');
+        const cancelBtn = document.getElementById('cancel-reply-btn');
+        const originalLocation = document.getElementById('form-original-location');
+
+        function moveReplyForm(parentPostId) {
+            const targetContainer = document.getElementById('reply-form-container-' + parentPostId);
+            
+            if (targetContainer) {
+                // Gizli input'un değerini, cevap verilen yorumun ID'si yap
+                parentIdInput.value = parentPostId;
+                
+                // Form başlığını değiştir
+                formTitle.innerText = "Yoruma Cevap Ver";
+                
+                // İptal butonunu göster
+                cancelBtn.style.display = 'block';
+                
+                // Formu, o yorumun altındaki hedef container'a taşı
+                targetContainer.appendChild(replyFormContainer);
+            }
+        }
+
+        function cancelReply() {
+            // Gizli input'u sıfırla (ana konuya cevap)
+            parentIdInput.value = null; // null olarak ayarla
+            
+            // Başlığı eski haline getir
+            formTitle.innerText = "Konuya Cevap Yaz";
+            
+            // İptal butonunu gizle
+            cancelBtn.style.display = 'none';
+            
+            // Formu, en altta oluşturduğumuz "yuva"ya (form-original-location) geri taşı
+            originalLocation.appendChild(replyFormContainer);
+        }
+    </script>
+}

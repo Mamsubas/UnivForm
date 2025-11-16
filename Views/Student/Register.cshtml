@@ -1,0 +1,250 @@
+@using UnivForm.Models.ViewModels
+@model StudentRegisterViewModel
+
+@{
+    ViewData["Title"] = "Öğrenci Kaydı";
+}
+
+<div class="min-h-screen bg-gradient-to-b from-gray-50 to-white py-12 px-4">
+    <div class="max-w-3xl mx-auto">
+        <div class="bg-white rounded-lg shadow-lg p-8">
+            <h1 class="text-3xl font-bold text-gray-900 mb-2">Öğrenci Kaydı</h1>
+            <p class="text-gray-600 mb-8">Platforma katılmak için hesap oluşturun</p>
+
+            <form method="post" class="space-y-6">
+                <div asp-validation-summary="ModelOnly" class="bg-red-50 border border-red-200 rounded-lg p-4 text-red-700"></div>
+
+                <!-- ADIM 1: Öğrenci Tipi Seçimi -->
+                <div class="bg-blue-50 border border-blue-200 rounded-lg p-6">
+                    <h2 class="text-lg font-bold text-gray-900 mb-4">🎓 Adım 1: Öğrenci Tipi Seçin</h2>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <label class="flex items-center p-4 border-2 rounded-lg cursor-pointer transition" 
+                               id="highSchoolOption"
+                               style="border-color: #ddd;">
+                            <input type="radio" name="StudentTypeSelect" value="HighSchool" onchange="toggleStudentType()" 
+                                   class="w-4 h-4 text-blue-600" />
+                            <span class="ml-3">
+                                <span class="block text-lg font-bold text-gray-900">📚 Lise Öğrencisi</span>
+                                <span class="text-gray-600 text-sm">Son sınıf lise öğrencileri için</span>
+                            </span>
+                        </label>
+
+                        <label class="flex items-center p-4 border-2 rounded-lg cursor-pointer transition" 
+                               id="universityOption"
+                               style="border-color: #ddd;">
+                            <input type="radio" name="StudentTypeSelect" value="University" onchange="toggleStudentType()" 
+                                   class="w-4 h-4 text-blue-600" />
+                            <span class="ml-3">
+                                <span class="block text-lg font-bold text-gray-900">🏫 Üniversite Öğrencisi</span>
+                                <span class="text-gray-600 text-sm">Üniversitede okuyan öğrenciler için</span>
+                            </span>
+                        </label>
+                    </div>
+                    <span asp-validation-for="StudentTypeSelect" class="text-red-600 text-sm mt-2 block"></span>
+                </div>
+
+                <!-- ADIM 2: Temel Bilgiler -->
+                <div class="bg-indigo-50 border border-indigo-200 rounded-lg p-6">
+                    <h2 class="text-lg font-bold text-gray-900 mb-4">👤 Adım 2: Temel Bilgiler</h2>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div>
+                            <label asp-for="Username" class="block text-sm font-medium text-gray-700">Kullanıcı Adı</label>
+                            <input asp-for="Username" class="mt-1 block w-full rounded-lg border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 border px-3 py-2" />
+                            <span asp-validation-for="Username" class="text-red-600 text-sm"></span>
+                        </div>
+                        <div>
+                            <label asp-for="Email" class="block text-sm font-medium text-gray-700">E-posta</label>
+                            <input asp-for="Email" type="email" class="mt-1 block w-full rounded-lg border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 border px-3 py-2" />
+                            <span asp-validation-for="Email" class="text-red-600 text-sm"></span>
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
+                        <div>
+                            <label asp-for="FirstName" class="block text-sm font-medium text-gray-700">Ad</label>
+                            <input asp-for="FirstName" class="mt-1 block w-full rounded-lg border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 border px-3 py-2" />
+                            <span asp-validation-for="FirstName" class="text-red-600 text-sm"></span>
+                        </div>
+                        <div>
+                            <label asp-for="LastName" class="block text-sm font-medium text-gray-700">Soyad</label>
+                            <input asp-for="LastName" class="mt-1 block w-full rounded-lg border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 border px-3 py-2" />
+                            <span asp-validation-for="LastName" class="text-red-600 text-sm"></span>
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
+                        <div>
+                            <label asp-for="TCKimlikNo" class="block text-sm font-medium text-gray-700">TC Kimlik No</label>
+                            <input asp-for="TCKimlikNo" class="mt-1 block w-full rounded-lg border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 border px-3 py-2" maxlength="11" />
+                            <span asp-validation-for="TCKimlikNo" class="text-red-600 text-sm"></span>
+                        </div>
+                        <div>
+                            <label asp-for="PhoneNumber" class="block text-sm font-medium text-gray-700">Telefon</label>
+                            <input asp-for="PhoneNumber" type="tel" class="mt-1 block w-full rounded-lg border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 border px-3 py-2" />
+                            <span asp-validation-for="PhoneNumber" class="text-red-600 text-sm"></span>
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mt-4">
+                        <div>
+                            <label asp-for="BirthDate" class="block text-sm font-medium text-gray-700">Doğum Tarihi</label>
+                            <input asp-for="BirthDate" type="date" class="mt-1 block w-full rounded-lg border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 border px-3 py-2" />
+                            <span asp-validation-for="BirthDate" class="text-red-600 text-sm"></span>
+                        </div>
+                        <div>
+                            <label asp-for="BirthPlace" class="block text-sm font-medium text-gray-700">Doğum Yeri</label>
+                            <input asp-for="BirthPlace" class="mt-1 block w-full rounded-lg border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 border px-3 py-2" />
+                            <span asp-validation-for="BirthPlace" class="text-red-600 text-sm"></span>
+                        </div>
+                        <div>
+                            <label asp-for="Gender" class="block text-sm font-medium text-gray-700">Cinsiyet</label>
+                            <select asp-for="Gender" class="mt-1 block w-full rounded-lg border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 border px-3 py-2">
+                                <option value="">Seçiniz...</option>
+                                <option value="Erkek">Erkek</option>
+                                <option value="Kadın">Kadın</option>
+                                <option value="Diğer">Diğer</option>
+                            </select>
+                            <span asp-validation-for="Gender" class="text-red-600 text-sm"></span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ADIM 3: Lise Öğrencisi Bilgileri -->
+                <div id="highSchoolFields" class="hidden bg-green-50 border border-green-200 rounded-lg p-6">
+                    <h2 class="text-lg font-bold text-gray-900 mb-4">📚 Adım 3: Lise Bilgileri</h2>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div>
+                            <label asp-for="HighSchoolName" class="block text-sm font-medium text-gray-700">Lise Adı</label>
+                            <input asp-for="HighSchoolName" class="mt-1 block w-full rounded-lg border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 border px-3 py-2" />
+                            <span asp-validation-for="HighSchoolName" class="text-red-600 text-sm"></span>
+                        </div>
+                        <div>
+                            <label asp-for="ExamScore" class="block text-sm font-medium text-gray-700">Sınav Puanı (100-500)</label>
+                            <input asp-for="ExamScore" type="number" step="0.01" min="100" max="500" class="mt-1 block w-full rounded-lg border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 border px-3 py-2" />
+                            <span asp-validation-for="ExamScore" class="text-red-600 text-sm"></span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ADIM 3: Üniversite Öğrencisi Bilgileri -->
+                <div id="universityFields" class="hidden bg-purple-50 border border-purple-200 rounded-lg p-6">
+                    <h2 class="text-lg font-bold text-gray-900 mb-4">🏫 Adım 3: Üniversite Bilgileri</h2>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div>
+                            <label asp-for="University" class="block text-sm font-medium text-gray-700">Üniversite Adı</label>
+                            <input asp-for="University" class="mt-1 block w-full rounded-lg border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 border px-3 py-2" />
+                            <span asp-validation-for="University" class="text-red-600 text-sm"></span>
+                        </div>
+                        <div>
+                            <label asp-for="Department" class="block text-sm font-medium text-gray-700">Bölüm Adı</label>
+                            <input asp-for="Department" class="mt-1 block w-full rounded-lg border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 border px-3 py-2" />
+                            <span asp-validation-for="Department" class="text-red-600 text-sm"></span>
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
+                        <div>
+                            <label asp-for="Grade" class="block text-sm font-medium text-gray-700">Sınıf (1-4)</label>
+                            <select asp-for="Grade" class="mt-1 block w-full rounded-lg border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 border px-3 py-2">
+                                <option value="">Seçiniz...</option>
+                                <option value="1">1. Sınıf</option>
+                                <option value="2">2. Sınıf</option>
+                                <option value="3">3. Sınıf</option>
+                                <option value="4">4. Sınıf</option>
+                            </select>
+                            <span asp-validation-for="Grade" class="text-red-600 text-sm"></span>
+                        </div>
+                        <div>
+                            <label asp-for="StudentId" class="block text-sm font-medium text-gray-700">Öğrenci Numarası</label>
+                            <input asp-for="StudentId" class="mt-1 block w-full rounded-lg border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 border px-3 py-2" />
+                            <span asp-validation-for="StudentId" class="text-red-600 text-sm"></span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ADIM 4: Adres ve Şifre -->
+                <div class="bg-gray-50 border border-gray-200 rounded-lg p-6">
+                    <h2 class="text-lg font-bold text-gray-900 mb-4">🔐 Adım 4: Adres ve Şifre</h2>
+
+                    <div class="mb-4">
+                        <label asp-for="Address" class="block text-sm font-medium text-gray-700">Adres</label>
+                        <textarea asp-for="Address" rows="3" class="mt-1 block w-full rounded-lg border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 border px-3 py-2"></textarea>
+                        <span asp-validation-for="Address" class="text-red-600 text-sm"></span>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div>
+                            <label asp-for="Password" class="block text-sm font-medium text-gray-700">Şifre</label>
+                            <input asp-for="Password" type="password" class="mt-1 block w-full rounded-lg border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 border px-3 py-2" />
+                            <span asp-validation-for="Password" class="text-red-600 text-sm"></span>
+                        </div>
+                        <div>
+                            <label asp-for="ConfirmPassword" class="block text-sm font-medium text-gray-700">Şifre (Tekrar)</label>
+                            <input asp-for="ConfirmPassword" type="password" class="mt-1 block w-full rounded-lg border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 border px-3 py-2" />
+                            <span asp-validation-for="ConfirmPassword" class="text-red-600 text-sm"></span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Butonlar -->
+                <div class="flex gap-3 justify-between">
+                    <a href="/" class="inline-flex items-center px-6 py-3 border border-gray-300 text-sm font-medium rounded-lg text-gray-700 bg-white hover:bg-gray-50 transition">
+                        ← Geri Dön
+                    </a>
+                    <button type="submit" class="inline-flex items-center px-6 py-3 text-sm font-bold rounded-lg text-white bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 transition shadow-md">
+                        ✨ Kayıt Ol
+                    </button>
+                </div>
+
+                <p class="text-center text-gray-600 text-sm mt-4">
+                    Zaten hesabınız var mı? <a asp-controller="Student" asp-action="Login" class="text-blue-600 hover:text-blue-800 font-medium">Giriş yapın</a>
+                </p>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script>
+    function toggleStudentType() {
+        const highSchool = document.querySelector('input[value="HighSchool"]').checked;
+        const university = document.querySelector('input[value="University"]').checked;
+
+        const highSchoolFields = document.getElementById('highSchoolFields');
+        const universityFields = document.getElementById('universityFields');
+
+        if (highSchool) {
+            highSchoolFields.classList.remove('hidden');
+            universityFields.classList.add('hidden');
+            document.getElementById('highSchoolOption').style.borderColor = '#3b82f6';
+            document.getElementById('highSchoolOption').style.backgroundColor = '#eff6ff';
+            document.getElementById('universityOption').style.borderColor = '#ddd';
+            document.getElementById('universityOption').style.backgroundColor = 'transparent';
+        } else if (university) {
+            highSchoolFields.classList.add('hidden');
+            universityFields.classList.remove('hidden');
+            document.getElementById('universityOption').style.borderColor = '#3b82f6';
+            document.getElementById('universityOption').style.backgroundColor = '#eff6ff';
+            document.getElementById('highSchoolOption').style.borderColor = '#ddd';
+            document.getElementById('highSchoolOption').style.backgroundColor = 'transparent';
+        } else {
+            highSchoolFields.classList.add('hidden');
+            universityFields.classList.add('hidden');
+            document.getElementById('highSchoolOption').style.borderColor = '#ddd';
+            document.getElementById('highSchoolOption').style.backgroundColor = 'transparent';
+            document.getElementById('universityOption').style.borderColor = '#ddd';
+            document.getElementById('universityOption').style.backgroundColor = 'transparent';
+        }
+    }
+
+    // Sayfa yüklendiğinde önceki seçimi geri yükle
+    window.addEventListener('load', function() {
+        toggleStudentType();
+    });
+</script>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

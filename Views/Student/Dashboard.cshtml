@@ -1,0 +1,93 @@
+@model Student
+
+@{
+    ViewData["Title"] = "Öğrenci Kontrol Paneli";
+}
+
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+    <div class="mb-8">
+        <h1 class="text-3xl font-bold text-gray-900">Hoş geldiniz, @Model.FirstName @Model.LastName</h1>
+        <p class="text-gray-600 mt-2">Bu sizin öğrenci kontrol paneliniz.</p>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+        <!-- Personal Info Card -->
+        <div class="bg-white rounded-lg shadow-md p-6">
+            <h2 class="text-xl font-semibold text-gray-900 mb-4">Kişisel Bilgiler</h2>
+            <dl class="space-y-3 text-sm">
+                <div class="flex justify-between">
+                    <dt class="font-medium text-gray-700">Ad Soyad:</dt>
+                    <dd class="text-gray-900">@Model.FirstName @Model.LastName</dd>
+                </div>
+                <div class="flex justify-between">
+                    <dt class="font-medium text-gray-700">TC Kimlik No:</dt>
+                    <dd class="text-gray-900">@Model.TCKimlikNo</dd>
+                </div>
+                <div class="flex justify-between">
+                    <dt class="font-medium text-gray-700">E-posta:</dt>
+                    <dd class="text-gray-900">@Model.Email</dd>
+                </div>
+                <div class="flex justify-between">
+                    <dt class="font-medium text-gray-700">Telefon:</dt>
+                    <dd class="text-gray-900">@Model.PhoneNumber</dd>
+                </div>
+                <div class="flex justify-between">
+                    <dt class="font-medium text-gray-700">Doğum Tarihi:</dt>
+                    <dd class="text-gray-900">@Model.BirthDate.ToString("dd.MM.yyyy")</dd>
+                </div>
+                <div class="flex justify-between">
+                    <dt class="font-medium text-gray-700">Doğum Yeri:</dt>
+                    <dd class="text-gray-900">@Model.BirthPlace</dd>
+                </div>
+            </dl>
+        </div>
+
+        <!-- Academic Info Card -->
+        <div class="bg-white rounded-lg shadow-md p-6">
+            <h2 class="text-xl font-semibold text-gray-900 mb-4">Akademik Bilgiler</h2>
+            <dl class="space-y-3 text-sm">
+                <div class="flex justify-between">
+                    <dt class="font-medium text-gray-700">Cinsiyet:</dt>
+                    <dd class="text-gray-900">@Model.Gender</dd>
+                </div>
+                <div class="flex justify-between">
+                    <dt class="font-medium text-gray-700">Lise:</dt>
+                    <dd class="text-gray-900">@Model.HighSchool</dd>
+                </div>
+                <div class="flex justify-between">
+                    <dt class="font-medium text-gray-700">Sınav Puanı:</dt>
+                    <dd class="text-gray-900">@Model.ExamScore</dd>
+                </div>
+                <div class="flex justify-between">
+                    <dt class="font-medium text-gray-700">Tercih Edilen Bölüm:</dt>
+                    <dd class="text-gray-900">@Model.SelectedDepartment</dd>
+                </div>
+                <div class="flex justify-between">
+                    <dt class="font-medium text-gray-700">Kayıt Tarihi:</dt>
+                    <dd class="text-gray-900">@Model.ApplicationDate.ToString("dd.MM.yyyy HH:mm")</dd>
+                </div>
+            </dl>
+        </div>
+    </div>
+
+    <!-- Address Info Card (Full Width) -->
+    @if (!string.IsNullOrEmpty(Model.Address))
+    {
+        <div class="bg-white rounded-lg shadow-md p-6 mt-8">
+            <h2 class="text-xl font-semibold text-gray-900 mb-4">Adres Bilgileri</h2>
+            <p class="text-gray-700">@Model.Address</p>
+        </div>
+    }
+
+    <!-- Actions -->
+    <div class="mt-8 flex gap-4">
+        <a href="/" class="inline-flex items-center gap-2 bg-indigo-600 text-white px-6 py-3 rounded-lg hover:bg-indigo-700">
+            Foruma Geri Dön
+        </a>
+        <form method="post" asp-action="Logout" class="inline">
+            <button type="submit" class="inline-flex items-center gap-2 bg-red-600 text-white px-6 py-3 rounded-lg hover:bg-red-700">
+                Çıkış Yap
+            </button>
+        </form>
+    </div>
+</div>

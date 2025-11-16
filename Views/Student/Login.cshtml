@@ -1,0 +1,58 @@
+@using UnivForm.Models.ViewModels
+@model LoginViewModel
+
+@{
+    ViewData["Title"] = "Öğrenci Girişi";
+}
+
+<div class="min-h-screen bg-gradient-to-b from-gray-50 to-white flex items-center px-4">
+    <div class="max-w-md mx-auto w-full">
+        <div class="bg-white rounded-lg shadow-lg p-8">
+            <div class="text-center mb-8">
+                <h1 class="text-3xl font-bold text-gray-900">Öğrenci Girişi</h1>
+                <p class="text-gray-600 mt-2">Hesabınıza giriş yapın</p>
+            </div>
+
+            <form method="post" class="space-y-4">
+                <div asp-validation-summary="ModelOnly" class="alert alert-danger bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded"></div>
+
+                <!-- Username or Email -->
+                <div>
+                    <label asp-for="UsernameOrEmail" class="block text-sm font-medium text-gray-700">Kullanıcı Adı veya E-posta</label>
+                    <input asp-for="UsernameOrEmail" class="mt-1 block w-full rounded-lg border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 border px-3 py-2" />
+                    <span asp-validation-for="UsernameOrEmail" class="text-red-600 text-sm"></span>
+                </div>
+
+                <!-- Password -->
+                <div>
+                    <label asp-for="Password" class="block text-sm font-medium text-gray-700">Şifre</label>
+                    <input asp-for="Password" type="password" class="mt-1 block w-full rounded-lg border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 border px-3 py-2" />
+                    <span asp-validation-for="Password" class="text-red-600 text-sm"></span>
+                </div>
+
+                <!-- Remember Me -->
+                <div class="flex items-center">
+                    <input asp-for="RememberMe" type="checkbox" class="w-4 h-4 text-indigo-600 border-gray-300 rounded focus:ring-indigo-500" />
+                    <label asp-for="RememberMe" class="ml-2 text-sm text-gray-700">Beni Hatırla</label>
+                </div>
+
+                <!-- Submit Button -->
+                <button type="submit" class="w-full bg-indigo-600 text-white py-2 px-4 rounded-lg hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 font-medium mt-6">Giriş Yap</button>
+
+                <!-- Links -->
+                <div class="text-center text-sm text-gray-600 mt-4 space-y-2">
+                    <p>
+                        Hesabınız yok mu? <a asp-action="Register" class="text-indigo-600 hover:underline font-medium">Kayıt olun</a>
+                    </p>
+                    <p>
+                        <a href="/" class="text-indigo-600 hover:underline">Anasayfaya dön</a>
+                    </p>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

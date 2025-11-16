@@ -1,0 +1,35 @@
+@model UnivForm.Models.ViewModels.CategoryViewModel
+@{
+    ViewData["Title"] = "Yeni Kategori Oluştur";
+}
+
+<div class="max-w-2xl mx-auto bg-white p-8 rounded-lg shadow-md">
+    <h1 class="text-2xl font-bold text-gray-800 mb-6">Yeni Kategori Oluştur</h1>
+
+    <form asp-action="Create" method="post">
+        
+        <div asp-validation-summary="ModelOnly" class="text-red-600 text-sm mb-4"></div>
+
+        <div class="mb-5">
+            <label asp-for="Title" class="block mb-2 text-sm font-medium text-gray-700">Kategori Başlığı</label>
+            <input asp-for="Title" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" />
+            <span asp-validation-for="Title" class="text-red-600 text-sm mt-1"></span>
+        </div>
+
+        <div class="mb-6">
+            <label asp-for="Description" class="block mb-2 text-sm font-medium text-gray-700">Açıklama</label>
+            <textarea asp-for="Description" rows="4" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"></textarea>
+            <span asp-validation-for="Description" class="text-red-600 text-sm mt-1"></span>
+        </div>
+
+        <div class="flex items-center justify-between">
+            <button type="submit" class="bg-blue-600 text-white hover:bg-blue-700 font-bold py-2 px-5 rounded-lg transition-all duration-300 shadow-md">
+                Kategoriyi Oluştur
+            </button>
+            
+            <a asp-controller="Forum" asp-action="CreateThread" class="text-gray-600 hover:text-gray-800 font-medium">
+                İptal
+            </a>
+        </div>
+    </form>
+</div>
