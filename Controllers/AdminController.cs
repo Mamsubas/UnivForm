@@ -65,6 +65,45 @@ public class AdminController : Controller
         return View(model);
     }
 
+    // GET: /Admin/ResetPassword/{id}
+    public async Task<IActionResult> ResetPassword(int id)
+    {
+        var user = await _userManager.FindByIdAsync(id.ToString());
+        if (user == null) return NotFound();
+
+        var model = new UnivForm.Models.ViewModels.AdminResetPasswordViewModel
+        {
+            UserId = id
+        };
+
+        return View(model);
+    }
+
+    // POST: /Admin/ResetPassword
+    [HttpPost]
+    public async Task<IActionResult> ResetPassword(UnivForm.Models.ViewModels.AdminResetPasswordViewModel model)
+    {
+        if (!ModelState.IsValid) return View(model);
+
+        var user = await _userManager.FindByIdAsync(model.UserId.ToString());
+        if (user == null) return NotFound();
+
+        var token = await _userManager.GeneratePasswordResetTokenAsync(user);
+        var result = await _userManager.ResetPasswordAsync(user, token, model.NewPassword);
+        if (result.Succeeded)
+        {
+            TempData["SuccessMessage"] = "Kullanıcının şifresi başarıyla sıfırlandı.";
+            return RedirectToAction("Index");
+        }
+
+        foreach (var error in result.Errors)
+        {
+            ModelState.AddModelError(string.Empty, error.Description);
+        }
+
+        return View(model);
+    }
+
     // GET: /Admin/Roles
     public async Task<IActionResult> Roles()
     {
@@ -222,24 +261,27 @@ public class AdminController : Controller
         if (user == null) return NotFound();
 
         var userRoles = await _userManager.GetRolesAsync(user);
+        // Normalize selections and ensure roles exist
+        var allRoleNames = _roleManager.Roles.Select(r => r.Name ?? string.Empty).ToList();
         var selectedRoles = model.AllRoles
-            .Where(r => r.IsSelected)
+            .Where(r => r.IsSelected && !string.IsNullOrEmpty(r.RoleName))
             .Select(r => r.RoleName)
             .ToList();
 
-        // Remove user from roles that are not selected
-        foreach (var role in userRoles)
+        // Remove user from roles that are not selected (case-insensitive)
+        foreach (var role in userRoles.ToList())
         {
-            if (!selectedRoles.Contains(role))
+            if (!selectedRoles.Any(sr => string.Equals(sr, role, StringComparison.OrdinalIgnoreCase)))
             {
                 await _userManager.RemoveFromRoleAsync(user, role);
             }
         }
 
-        // Add user to roles that are selected
+        // Add user to roles that are selected and actually exist
         foreach (var role in selectedRoles)
         {
-            if (!userRoles.Contains(role))
+            if (!userRoles.Any(ur => string.Equals(ur, role, StringComparison.OrdinalIgnoreCase))
+                && allRoleNames.Any(ar => string.Equals(ar, role, StringComparison.OrdinalIgnoreCase)))
             {
                 await _userManager.AddToRoleAsync(user, role);
             }

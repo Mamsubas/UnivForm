@@ -48,7 +48,15 @@ builder.Services.ConfigureApplicationCookie(options =>
     options.Cookie.SecurePolicy = CookieSecurePolicy.Always;
     options.Cookie.SameSite = SameSiteMode.Strict;
 });
-builder.Services.AddTransient<IEmailSender, DummyEmailSender>();
+// Register email sender: use SMTP sender if configuration present, otherwise dummy sender
+if (!string.IsNullOrEmpty(builder.Configuration["Smtp:Host"]))
+{
+    builder.Services.AddTransient<IEmailSender, SmtpEmailSender>();
+}
+else
+{
+    builder.Services.AddTransient<IEmailSender, DummyEmailSender>();
+}
 
 // Security headers middleware
 builder.Services.AddHsts(options =>

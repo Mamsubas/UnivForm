@@ -149,4 +149,46 @@ namespace UnivForm.Models.ViewModels
         public string RoleName { get; set; } = "";
         public bool IsSelected { get; set; }
     }
+
+    // Forgot / Reset password view models
+    public class ForgotPasswordViewModel
+    {
+        [Required]
+        [EmailAddress]
+        [Display(Name = "E-posta")]
+        public string Email { get; set; } = "";
+    }
+
+    public class ResetPasswordViewModel
+    {
+        public int UserId { get; set; }
+
+        [Required]
+        public string Token { get; set; } = "";
+
+        [Required]
+        [DataType(DataType.Password)]
+        [Display(Name = "Yeni Şifre")]
+        public string Password { get; set; } = "";
+
+        [DataType(DataType.Password)]
+        [Display(Name = "Yeni Şifre (Tekrar)")]
+        [Compare("Password", ErrorMessage = "Şifreler uyuşmuyor.")]
+        public string ConfirmPassword { get; set; } = "";
+    }
+
+    public class AdminResetPasswordViewModel
+    {
+        public int UserId { get; set; }
+
+        [Required]
+        [DataType(DataType.Password)]
+        [Display(Name = "Yeni Şifre")]
+        public string NewPassword { get; set; } = "";
+
+        [DataType(DataType.Password)]
+        [Display(Name = "Yeni Şifre (Tekrar)")]
+        [Compare("NewPassword", ErrorMessage = "Şifreler uyuşmuyor.")]
+        public string ConfirmPassword { get; set; } = "";
+    }
 }
